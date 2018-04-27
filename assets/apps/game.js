@@ -44,11 +44,22 @@ var enemy = [{
 var player = {
     maxHealth: 100,
     health: 100,
-    hits: 0,
-    usedHealth: 0
+    hits: 0
 }
 
 var level = 0
+
+var Item = function(itemName, itemMod, itemQ) {
+    this.itemName = itemName
+    this.itemMod = itemMod
+    this.itemQ = itemQ
+}
+
+var items = {
+    Potion: new Item("Health Potion", 25, 5),
+    Shield: new Item("Shield", 0.5, 10),
+    Sandwhich: new Item("Sandwhich", 2, 2)
+}
 
 function attack(num, enemy) {
     var playerChoice = playerAttack(num, enemy)
@@ -128,12 +139,35 @@ function poisoned(enemyChar) {
         enemyChar[level].health -= enemyChar[level].damage.poison
     }
 }
-function healthPotion(playerChar) { 
+function healthPotion(playerChar, obj) { 
     debugger
-    if (playerChar.usedHealth < 6 && playerChar.health < playerChar.maxHealth) {
-        playerChar.health += 25
+    if (obj.Potion.itemQ > 0 && playerChar.health < playerChar.maxHealth) {
+        playerChar.health += obj.Potion.itemMod
         playerupdate(playerChar.health)
-        playerChar.usedHealth += 1
+        obj.Potion.itemQ -= 1
+    }
+}
+
+function eatSandwhich(obj, playChar, enemyChar) {
+    debugger
+    if (obj.Sandwhich.itemQ > 0) {
+        var modifier = obj.Sandwhich.itemMod
+        enemyChar[level].damage.quick += enemyChar[level].damage.quick
+        enemyChar[level].damage.heavy += enemyChar[level].damage.heavy
+        playerupdate(playChar.health * modifier)
+        obj.Sandwhich.itemQ -= 1
+    }
+}
+
+function shield(def, playDef, enemyDef) {
+    debugger
+    if (def.Shield.itemQ > 0) {
+        enemyDef[level].attack.range -= enemyDef[level].attack.range
+        var quickReduce = (enemyDef[level].attack.quick/2)
+        var heavyReduce = (enemyDef[level].attack.heavy/2)
+        enemyDef[level].attack.quick -= quickReduce
+        enemyDef[level].attack.heavy -= heavyReduce 
+        def.Shield.itemQ -= 1
     }
 }
 
