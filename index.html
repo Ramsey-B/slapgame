@@ -11,14 +11,29 @@
 <body>
     <div class="section">
         <div class="row">
-            <div class="col">
-                <h2>Fight!</h2>
-                <span>Enemy: <span id="name"></span></span>
-                <span>Health: <span id="health"></span></span>
+            <div class="col-6">
+                    <span>You: <span id="playername"></span></span>
+                    <span>Health: <span id="playerhealth"></span></span>
+                    <img src="" alt="" id="playerimg">
+            </div>
+            <div class="col-6">
+                <span>Enemy: <span id="enemyname"></span></span>
+                <span>Health: <span id="enemyhealth"></span></span>
                 <img src="" alt="" id="enemyimg">
-                <button onclick="quick(enemy); levelIncrease(enemy)">Quick Attack</button>
-                <button onclick="heavy(enemy); levelIncrease(enemy)">Heavy Attack</button>
-                <button onclick="arrow(enemy); levelIncrease(enemy)">Arrow</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                    <button onclick="attack(1, enemy); levelIncrease(enemy)">Quick Attack</button>
+                    <button onclick="attack(2, enemy); levelIncrease(enemy)">Heavy Attack</button>
+                    <button onclick="attack(3, enemy); levelIncrease(enemy)">Arrow</button>
+                    <button onclick="greenMagic(enemy)">Magic</button>
+                    <button onclick="healthPotion(player)">Health Potion</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h3 id="enemydisplay"></h3>
             </div>
         </div>
     </div>
