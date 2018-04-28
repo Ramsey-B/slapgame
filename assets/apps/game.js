@@ -66,15 +66,17 @@ var items = {
 }
 
 function attack(num, enemy) {
+    debugger
     var playerChoice = playerAttack(num, enemy)
     enemy[level].health -= playerChoice
-    poisoned(enemy)
+    display(attackMess(num))
     update(enemy[level].health, 'enemyhealth')
-    charName(enemy[level].name, 'enemyname')
-    var enemyAttResult = enemyAttack(enemy[level])
-    enemyDisplay(enemyAttResult)
+    var eAttack = enemyAttChoice()
+    var enemyAttResult = enemyAttMess(enemy[level], eAttack)
+    setTimeout(display, 3000, enemyAttResult)
+    enemyDmg(eAttack, enemy[level], player[choice])
     enemy[level].hits++
-    update(player[choice].health, 'playerhealth')
+    setTimeout(update, 3000, player[choice].health, 'playerhealth')
 }
 
 function playerAttack(num, enemy) {
@@ -118,24 +120,47 @@ function levelIncrease(enemy) {
     }
 }
 
-function enemyAttack(enemyChar) {
-    var randAtt = Math.floor(Math.random() * 4)
-    if (randAtt == 1) {
-        player[choice].health -= enemyChar.attack.quick
+function enemyAttMess(enemyChar, randChoice) {
+    if (randChoice == 1 || randChoice == 2) {
         return enemyChar.name + ' used a ' + enemyChar.attack.attackName1
-    } else if (randAtt == 2) {
-        player[choice].health -= enemyChar.attack.heavy
+    } else if (randChoice == 3 || randChoice == 4) {
         return enemyChar.name + ' used a ' + enemyChar.attack.attackName2
-    } else if (randAtt == 3) {
-        player[choice].health -= enemyChar.attack.range
+    } else if (randChoice == 5 || randChoice == 6) {
         return enemyChar.name + ' fired an ' + enemyChar.attack.attackName3
     } else {
         return enemyChar.name + ' Missed!'
     }
 }
 
-function enemyDisplay(resultMess) {
-    document.getElementById('enemydisplay').innerText = resultMess
+function enemyAttChoice() {
+    var randAtt = Math.floor(Math.random() * 7)
+    return randAtt
+}
+
+function enemyDmg(randChoice, enemyChar, playerChar) {
+    if (randChoice == 1 || randChoice == 2) {
+        playerChar.health -= enemyChar.attack.quick
+    } else if (randChoice == 3 || randChoice == 4) {
+        playerChar.health -= enemyChar.attack.heavy
+    } else if (randChoice == 5 || randChoice == 6) {
+        playerChar.health -= enemyChar.attack.range
+    } else {
+        playerChar.health -= 0
+    }
+}
+
+function display(resultMess) {
+    document.getElementById('display').innerText = resultMess
+}
+
+function attackMess(number) {
+    if (number == 1) {
+        return 'You used a Quick Attack!'
+    } else if (number == 2) {
+        return 'You used a Heavy Attack!'
+    } else if (number == 3) {
+        return 'You fired an Arrow!'
+    }
 }
 
 function greenMagic(target) {
@@ -147,6 +172,7 @@ function greenMagic(target) {
 function poisoned(enemyChar) {
     if (enemyChar[level].poisoned == 1) {
         enemyChar[level].health -= enemyChar[level].damage.poison
+        return enemyChar[level] + 'is poisoned!'
     }
 }
 function healthPotion(playerChar, obj) {
