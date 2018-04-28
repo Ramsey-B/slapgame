@@ -1,45 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Slap Game</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
     <link rel="stylesheet" href="assets/styles/game.css">
 </head>
+
 <body>
     <div class="section">
         <div class="row">
             <div class="col-6">
-                    <span>You: <span id="playername"></span></span>
-                    <span>Health: <span id="playerhealth"></span></span>
-                    <img src="" alt="" id="playerimg">
+                <span id="playername"></span>
             </div>
             <div class="col-6">
-                <span>Enemy: <span id="enemyname"></span></span>
-                <span>Health: <span id="enemyhealth"></span></span>
+                <span id="enemyname"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 back-img" id="background-img">
+                <div class="row">
+                    <div class="col-4 player-char">
+                        <img src="" alt="" id="playerimg">
+                    </div>
+                    <div class="col-4">
+                        <h3 id="enemydisplay"></h3>
+                    </div>
+                    <div class="col-4 enemy-char">
+                        <img src="" alt="" id="enemyimg">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4" id="playerhealth">
+                
+            </div>
+            <div class="col-4">
+                <span>Hits: </span>
+            </div>
+            <div class="col-4" id="enemyhealth">
+                
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <h3>Attacks!</h3>
+                <button onclick="attack(1, enemy); levelIncrease(enemy)">Quick Attack</button>
+                <button onclick="attack(2, enemy); levelIncrease(enemy)">Heavy Attack</button>
+                <button onclick="attack(3, enemy); levelIncrease(enemy)">Arrow</button>
+                <button onclick="greenMagic(enemy)">Magic</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <h3>Items!</h3>
+                <button onclick="healthPotion(player, items)">Health Potion</button>
+                <button onclick="eatSandwhich(items, player, enemy)">Sandwhich</button>
+                <button onclick="shield(items, player, enemy)">Shield</button>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+    <!-- <div class="row">
+            <div class="col-6">
+                <span>You:
+                    <span id="playername"></span>
+                </span>
+                <span>Health:
+                    <span id="playerhealth"></span>
+                </span>
+                <img src="" alt="" id="playerimg">
+            </div>
+            <div class="col-6">
+                <span>Enemy:
+                    <span id="enemyname"></span>
+                </span>
+                <span>Health:
+                    <span id="enemyhealth"></span>
+                </span>
                 <img src="" alt="" id="enemyimg">
             </div>
         </div>
         <div class="row">
             <div class="col">
-                    <button onclick="attack(1, enemy); levelIncrease(enemy)">Quick Attack</button>
-                    <button onclick="attack(2, enemy); levelIncrease(enemy)">Heavy Attack</button>
-                    <button onclick="attack(3, enemy); levelIncrease(enemy)">Arrow</button>
-                    <button onclick="greenMagic(enemy)">Magic</button>
-                    <button onclick="healthPotion(player, items)">Health Potion</button>
-                    <button onclick="eatSandwhich(items, player, enemy)">Sandwhich</button>
-                    <button onclick="shield(items, player, enemy)">Shield</button>
+                <button onclick="attack(1, enemy); levelIncrease(enemy)">Quick Attack</button>
+                <button onclick="attack(2, enemy); levelIncrease(enemy)">Heavy Attack</button>
+                <button onclick="attack(3, enemy); levelIncrease(enemy)">Arrow</button>
+                <button onclick="greenMagic(enemy)">Magic</button>
+                <button onclick="healthPotion(player, items)">Health Potion</button>
+                <button onclick="eatSandwhich(items, player, enemy)">Sandwhich</button>
+                <button onclick="shield(items, player, enemy)">Shield</button>
             </div>
         </div>
         <div class="row">
             <div class="col">
                 <h3 id="enemydisplay"></h3>
+                
             </div>
-        </div>
+        </div> -->
     </div>
 
     <script src="assets/apps/game.js"></script>
 </body>
+
 </html>

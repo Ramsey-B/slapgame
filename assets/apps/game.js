@@ -10,6 +10,7 @@ var enemy = [{
         poison: 10
     },
     img: 'assets/pics/thief.png',
+    backImg: 'assets/pics/forrest-background.jpg',
     poisoned: 0,
     attack: {
         attackName1: 'Quick Attack',
@@ -41,15 +42,18 @@ var enemy = [{
     },
 },]
 
-var player = {
+var choice = 0
+var player = [{
+    name: 'Green Knight',
+    img: 'assets/pics/greenknight.png',
     maxHealth: 100,
     health: 100,
     hits: 0
-}
+}]
 
 var level = 0
 
-var Item = function(itemName, itemMod, itemQ) {
+var Item = function (itemName, itemMod, itemQ) {
     this.itemName = itemName
     this.itemMod = itemMod
     this.itemQ = itemQ
@@ -65,13 +69,12 @@ function attack(num, enemy) {
     var playerChoice = playerAttack(num, enemy)
     enemy[level].health -= playerChoice
     poisoned(enemy)
-    enemyupdate(enemy[level].health)
-    enemyName(enemy[level].name)
-    enemyImg(enemy[level].img)
+    update(enemy[level].health, 'enemyhealth')
+    charName(enemy[level].name, 'enemyname')
     var enemyAttResult = enemyAttack(enemy[level])
     enemyDisplay(enemyAttResult)
     enemy[level].hits++
-    playerupdate(player.health)
+    update(player[choice].health, 'playerhealth')
 }
 
 function playerAttack(num, enemy) {
@@ -84,40 +87,47 @@ function playerAttack(num, enemy) {
     }
 }
 
-function enemyupdate(health) {
-    document.getElementById('enemyhealth').innerText = health
+function update(health, charId) {
+    if (health > 0) {
+        document.getElementById(charId).innerHTML = `<h4>Health</h4>
+        <div class="progress">
+  <div class="progress-bar" role="progressbar" style="width: ${health}%;" aria-valuenow="${health}" aria-valuemin="0" aria-valuemax="100">${health}</div>
+</div>`
+    } else {
+        document.getElementById(charId).innerHTML = `<h4>Health</h4>
+        <div class="progress">
+  <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+</div>`
+    }
 }
 
-function playerupdate(health) {
-    document.getElementById('playerhealth').innerText = health
+function charName(name, nameId) {
+    document.getElementById(nameId).innerText = name
 }
 
-function enemyName(name) {
-    document.getElementById('enemyname').innerText = name
-}
-
-function enemyImg(img) {
-    document.getElementById('enemyimg').src = img
+function charImg(img, imgId) {
+    document.getElementById(imgId).src = img
 }
 
 function levelIncrease(enemy) {
     if (enemy[level].health <= 0) {
         level++
-        enemyupdate(enemy[level].health)
-        enemyName(enemy[level].name)
+        update(enemy[level].health, 'enemyhealth')
+        charName(enemy[level].name, 'enemyname')
+        charImg(enemy[level].img, 'enemyimg')
     }
 }
 
 function enemyAttack(enemyChar) {
     var randAtt = Math.floor(Math.random() * 4)
     if (randAtt == 1) {
-        player.health -= enemyChar.attack.quick
+        player[choice].health -= enemyChar.attack.quick
         return enemyChar.name + ' used a ' + enemyChar.attack.attackName1
     } else if (randAtt == 2) {
-        player.health -= enemyChar.attack.heavy
+        player[choice].health -= enemyChar.attack.heavy
         return enemyChar.name + ' used a ' + enemyChar.attack.attackName2
     } else if (randAtt == 3) {
-        player.health -= enemyChar.attack.range
+        player[choice].health -= enemyChar.attack.range
         return enemyChar.name + ' fired an ' + enemyChar.attack.attackName3
     } else {
         return enemyChar.name + ' Missed!'
@@ -139,11 +149,11 @@ function poisoned(enemyChar) {
         enemyChar[level].health -= enemyChar[level].damage.poison
     }
 }
-function healthPotion(playerChar, obj) { 
+function healthPotion(playerChar, obj) {
     debugger
     if (obj.Potion.itemQ > 0 && playerChar.health < playerChar.maxHealth) {
         playerChar.health += obj.Potion.itemMod
-        playerupdate(playerChar.health)
+        update(playerChar.health, 'playerhealth')
         obj.Potion.itemQ -= 1
     }
 }
@@ -154,7 +164,7 @@ function eatSandwhich(obj, playChar, enemyChar) {
         var modifier = obj.Sandwhich.itemMod
         enemyChar[level].damage.quick += enemyChar[level].damage.quick
         enemyChar[level].damage.heavy += enemyChar[level].damage.heavy
-        playerupdate(playChar.health * modifier)
+        update(playChar.health * modifier, 'playerhealth')
         obj.Sandwhich.itemQ -= 1
     }
 }
@@ -163,15 +173,17 @@ function shield(def, playDef, enemyDef) {
     debugger
     if (def.Shield.itemQ > 0) {
         enemyDef[level].attack.range -= enemyDef[level].attack.range
-        var quickReduce = (enemyDef[level].attack.quick/2)
-        var heavyReduce = (enemyDef[level].attack.heavy/2)
+        var quickReduce = (enemyDef[level].attack.quick / 2)
+        var heavyReduce = (enemyDef[level].attack.heavy / 2)
         enemyDef[level].attack.quick -= quickReduce
-        enemyDef[level].attack.heavy -= heavyReduce 
+        enemyDef[level].attack.heavy -= heavyReduce
         def.Shield.itemQ -= 1
     }
 }
 
-playerupdate(player.health)
-enemyupdate(enemy[level].health)
-enemyName(enemy[level].name)
-enemyImg(enemy[level].img)
+update(player[choice].health, 'playerhealth')
+update(enemy[level].health, 'enemyhealth')
+charName(enemy[level].name, 'enemyname')
+charName(player[choice].name, 'playername')
+charImg(enemy[level].img, 'enemyimg')
+charImg(player[choice].img, 'playerimg')

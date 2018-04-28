@@ -1,3 +1,12 @@
-img {
-    width:'200px'
+
+.progress-bar {
+    color: white;
+    background-color: blue;
+}
+#playerimg {
+    width: 200px;
+}
+
+#enemyimg {
+    width: 200px;
 }
