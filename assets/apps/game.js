@@ -112,6 +112,7 @@ function attack(num, enemyChar) {
     setTimeout(update, 3000, player[choice], 'playerhealth')
     shieldEnd(player[choice], enemyChar)
     sandEnd(player[choice], enemyChar)
+    drawHits(enemy)
 }
 
 var level = 0
@@ -236,8 +237,8 @@ function poisoned(enemyChar) {
 }
 
 function useItem(num, playerChar, enemyChar) {
+    drawItemInven(playerChar.item)
     if (num == 0) {
-        debugger
         if (playerChar.item[0].itemQ > 0) {
             playerChar.health += playerChar.item[0].itemMod
             update(playerChar, 'playerhealth')
@@ -320,6 +321,24 @@ function drawItemBtn(arr, playerChar, enemyChar) {
     }
     document.getElementById('item-btn').innerHTML = template
 }
+
+function drawHits(enemyChar) {
+    var total = 0
+    for (var i=0; i<enemyChar.length; i++) {
+        total += enemyChar[i].hits
+    }
+    document.getElementById('Hits').innerHTML = '<h4>Hits: ' +total
+}
+
+function drawItemInven(arr) {
+    debugger
+    var template = ``
+    for (var i=0; i<arr.length; i++) {
+        template += `<h5>${arr[i].itemName}: ${arr[i].itemQ}</h5>`
+    }
+    document.getElementById('itemInven').innerHTML = template
+}
+
 function startGame(pick) {
     update(player[choice], 'playerhealth')
     update(enemy[level], 'enemyhealth')
@@ -331,7 +350,8 @@ function startGame(pick) {
     drawAttBtn(player[choice].attacks)
     addItems(items, player[choice])
     drawItemBtn(player[choice].item, player, enemy)
-
+    drawHits(enemy)
+    drawItemInven(player[choice].item)
 }
 
 start(-1)
