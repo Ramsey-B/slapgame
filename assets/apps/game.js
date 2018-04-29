@@ -18,20 +18,37 @@ var character = [{
     btn: 'primary'
 }]
 
-function pageChange() {
-    var page = document.getElementById("start-page");
-    if (page.style.display === "none") {
-        page.style.display = "block";
-    } else {
-        page.style.display = "none";
+function pageChange(pageNum) {
+    if (pageNum = 1) {
+        var page = document.getElementById("start-page");
+        if (page.style.display === "none") {
+            page.style.display = "block";
+        } else {
+            page.style.display = "none";
+        }
+    } else if (pageNum = 2) {
+        var page = document.getElementById("main-game");
+        if (page.style.display === "none") {
+            page.style.display = "block";
+        } else {
+            page.style.display = "none";
+        }
+    } else if (pageNum = 3) {
+        var page = document.getElementById("end-page");
+        if (page.style.display === "none") {
+            page.style.display = "block";
+        } else {
+            page.style.display = "none";
+        }
     }
 }
 
 function startPage() {
+    document.getElementById('start-page').style.display = "block"
     var template = ``
     for (var i = 0; i < character.length; i++) {
         template += `<div class="col-4 start-img" id="${character[i].divId}" style="background-image: ${character[i].img}">
-            <button class="btn btn-outline-${character[i].btn} btn-start" onclick="startGame(${[i]}); pageChange();">Start</button>
+            <button class="btn btn-outline-${character[i].btn} btn-start" onclick="startGame(${[i]}); pageChange(1);">Start</button>
             </div>`
     }
     document.getElementById('start-page').innerHTML = template
@@ -65,7 +82,7 @@ var enemy = [{
         heavy: 10,
         range: 25,
         rangebase: 25,
-        hitChance: [0,1,2,3,4]
+        hitChance: [0, 0, 1, 1, 1, 2, 3, 3]
     },
 }, {
     name: 'Barbarian',
@@ -142,14 +159,13 @@ var player = [{
 }]
 
 function attack(num, enemyChar) {
-    debugger
     var playerChoice = playerAttack(num, enemyChar)
     enemyChar.health -= playerChoice
     display(attackMess(num))
     update(enemyChar, 'enemyhealth')
     lightning(enemyChar)
     ice(enemyChar)
-    var eAttack = enemyAttChoice()
+    var eAttack = enemyAttChoice(enemyChar)
     var enemyAttResult = enemyAttMess(enemyChar, eAttack)
     setTimeout(display, 3000, enemyAttResult)
     enemyDmg(eAttack, enemyChar, player[choice])
@@ -158,7 +174,8 @@ function attack(num, enemyChar) {
     shieldEnd(player[choice], enemyChar)
     sandEnd(player[choice], enemyChar)
     drawHits(enemy)
-    setTimeout(poison, 2000, enemyChar)
+    setTimeout(poison, 5000, enemyChar)
+    playerWin(enemy, player[choice])
 }
 
 var level = 0
@@ -193,12 +210,12 @@ function playerAttack(num, enemyChar) {
     }
 }
 
-function update(playerChar, charId) {
-    if (playerChar.health > 0) {
+function update(Char, charId) {
+    var charHealth= Char.health
+    if (charHealth > 0) {
         document.getElementById(charId).innerHTML = `<h4>Health</h4>
         <div class="progress">
-  <div class="progress-bar" role="progressbar" style="width: ${playerChar.health / 2}%;">${playerChar.health + playerChar.healthBonus}</div>
-  <div class="progress-bar bg-success" style="width:${playerChar.healthBonus / 2}%"></div>
+  <div class="progress-bar" role="progressbar" style="width: ${charHealth / 2}%;">${charHealth}</div>
     </div>`
     } else {
         document.getElementById(charId).innerHTML = `<h4>Health</h4>
@@ -222,20 +239,21 @@ function levelIncrease(enemy) {
         update(enemy[level].health, 'enemyhealth')
         charName(enemy[level].name, 'enemyname')
         charImg(enemy[level].img, 'enemyimg')
-        drawBackground(enemy[level])
+        drawBackground(enemy[level]) 
     }
 }
 
 function enemyAttMess(enemyChar, randChoice) {
-    var randAtt = enemyChar.attack.hitChance[randChoice]
+    var options = enemyChar.attack.hitChance
+    var randAtt = options[randChoice]
     if (randAtt > 0) {
-        if (randAtt >= 1 || randChoice <= 3) {
+        if (randAtt == 1) {
             return enemyChar.name + ' used a ' + enemyChar.attack.attackName1
-        } else if (randAtt == 4) {
+        } else if (randAtt == 2) {
             return enemyChar.name + ' used a ' + enemyChar.attack.attackName2
-        } else if (randAtt == 5 || randAtt == 6) {
+        } else if (randAtt == 3) {
             return enemyChar.name + ' fired an ' + enemyChar.attack.attackName3
-        } 
+        }
     } else if (randChoice == (enemyChar.attack.hitChance.length - 1)) {
         return enemyChar.name + ' is shocked and missed!'
     } else {
@@ -243,19 +261,20 @@ function enemyAttMess(enemyChar, randChoice) {
     }
 }
 
-function enemyAttChoice() {
-    var randAtt = Math.floor(Math.random() * 7)
+function enemyAttChoice(enemyChar) {
+    var attacks = enemyChar.attack.hitChance.length
+    var randAtt = Math.floor(Math.random() * attacks)
     return randAtt
 }
 
 function enemyDmg(randChoice, enemyChar, playerChar) {
     var randAtt = enemyChar.attack.hitChance[randChoice]
     if (randAtt > 0) {
-        if (randAtt >= 1 || randChoice <= 3) {
+        if (randAtt == 1) {
             playerChar.health -= enemyChar.attack.quick
-        } else if (randAtt == 4) {
+        } else if (randAtt == 2) {
             playerChar.health -= enemyChar.attack.heavy
-        } else if (randAtt == 5 || randAtt == 6) {
+        } else if (randAtt == 3) {
             playerChar.health -= enemyChar.attack.range
         }
     } else {
@@ -285,12 +304,12 @@ function poisoned(enemyChar) {
 }
 
 function useItem(num, playerChar, enemyChar) {
-    drawItemInven(playerChar.item)
     if (num == 0) {
         if (playerChar.item[0].itemQ > 0) {
             playerChar.health += playerChar.item[0].itemMod
             update(playerChar, 'playerhealth')
             playerChar.item[0].itemQ -= 1
+            drawItemInven(playerChar.item)
             document.getElementById('display').innerText = "You used a Health Potion!"
         } else {
             document.getElementById('display').innerText = "You're out of those!"
@@ -302,7 +321,8 @@ function useItem(num, playerChar, enemyChar) {
             var heavyReduce = (enemyChar[level].attack.heavy / 2)
             enemyChar[level].attack.quick -= quickReduce
             enemyChar[level].attack.heavy -= heavyReduce
-            playerChar.item[0].itemQ -= 1
+            playerChar.item[1].itemQ -= 1
+            drawItemInven(playerChar.item)
             document.getElementById('display').innerText = "Armored up!"
             playerChar.shieldBonus += 5
         } else {
@@ -314,9 +334,10 @@ function useItem(num, playerChar, enemyChar) {
             enemyChar[level].damage.quick += enemyChar[level].damage.quick
             enemyChar[level].damage.heavy += enemyChar[level].damage.heavy
             var healthIn = playerChar.health * modifier
-            playerChar.healthBonus += healthIn - playerChar.maxHealth
+            playerChar.health = healthIn
             update(playerChar, 'playerhealth')
-            playerChar.item[0].itemQ -= 1
+            playerChar.item[2].itemQ -= 1
+            drawItemInven(playerChar.item)
             document.getElementById('display').innerText = "You ate a Sandwhich!"
             playerChar.sandBonus += 5
         } else {
@@ -326,6 +347,7 @@ function useItem(num, playerChar, enemyChar) {
 }
 
 function shieldEnd(playerChar, enemyChar) {
+    debugger
     if (playerChar.shieldBonus > 0) {
         playerChar.shieldBonus -= 1
     } else if (playerChar.shieldBonus == 0) {
@@ -340,8 +362,9 @@ function sandEnd(playerChar, enemyChar) {
     if (playerChar.sandBonus > 0) {
         playerChar.sandBonus -= 1
     } else if (playerChar.shieldBonus == 0) {
-        enemyChar[level].damage.quick -= (enemyChar[level].damage.quick / 2)
-        enemyChar[level].damage.heavy -= (enemyChar[level].damage.heavy / 2)
+        var attDamage = enemyChar.damage
+        attDamage.quick -= (attDamage.quick / 2)
+        attDamage.heavy -= (attDamage.heavy / 2)
         playerChar.healthBonus -= playerChar.healthBonus
         playerChar.sandBonus -= 1
     }
@@ -370,12 +393,16 @@ function drawItemBtn(arr, playerChar, enemyChar) {
     document.getElementById('item-btn').innerHTML = template
 }
 
-function drawHits(enemyChar) {
+function totalHits(enemyChar) {
     var total = 0
     for (var i = 0; i < enemyChar.length; i++) {
         total += enemyChar[i].hits
     }
-    document.getElementById('Hits').innerHTML = '<h4>Hits: ' + total
+    return total
+}
+
+function drawHits(enemyChar) {
+    document.getElementById('Hits').innerHTML = '<h4>Hits: ' + totalHits(enemyChar)
 }
 
 function drawItemInven(arr) {
@@ -418,8 +445,8 @@ function lightning(enemyChar) {
 
 function ice(enemyChar) {
     if (enemyChar.frozen == 1) {
-        enemyChar.attack.quick -= (enemyChar.attack.quick/2)
-        enemyChar.attack.heavy -= (enemyChar.attack.heavy/2)
+        enemyChar.attack.quick -= (enemyChar.attack.quick / 2)
+        enemyChar.attack.heavy -= (enemyChar.attack.heavy / 2)
         enemyChar.frozen -= .5
     } else if (enemyChar.frozen == .5) {
         enemyChar.frozen -= .5
@@ -435,6 +462,7 @@ function drawMagicBtn(playerChar) {
 }
 
 function startGame(pick) {
+    document.getElementById('start-page').style.display = "block"
     choice = pick
     update(player[choice], 'playerhealth')
     update(enemy[level], 'enemyhealth')
@@ -449,4 +477,23 @@ function startGame(pick) {
     drawHits(enemy)
     drawItemInven(player[choice].item)
     drawMagicBtn(player[choice])
+}
+
+function drawEndPage(outcome) {
+    document.getElementById('end-page').style.display = "block"
+    var endMess = outcome
+    document.getElementById('end-page').innerHTML = `<h2>${endMess}</h2>
+    <span>Hits: ${totalHits()}</span>
+    <span>Enemies beat: ${level}</span>
+    <button onclick="startPage(); pageChange(3)">Try again!</button>`
+}
+
+function playerWin(enemyArr, playerChar) {
+    if (enemyArr.length == level) {
+        pageChange(2) 
+        drawEndPage('You Win!')
+    } else if (playerChar.health == 0) {
+        pageChange(2)
+        drawEndPage('You Lose!')
+    }
 }
