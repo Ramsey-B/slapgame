@@ -19,7 +19,6 @@ var character = [{
 }]
 
 function pageChange(pageNum) {
-    debugger
     if (pageNum = 1) {
         var page = document.getElementById("start-page");
         if (page.style.display === "none") {
@@ -216,7 +215,7 @@ function playerAttack(num, enemyChar) {
 function update(Char, charId) {
     var charHealth= Char.health
     if (charHealth > 0) {
-        document.getElementById(charId).innerHTML = `<h4>Health</h4>
+        document.getElementById(charId).innerHTML = `<h4>${Char.name}'s Health:</h4>
         <div class="progress">
   <div class="progress-bar" role="progressbar" style="width: ${charHealth / 2}%;">${charHealth}</div>
     </div>`
@@ -350,7 +349,6 @@ function useItem(num, playerChar, enemyChar) {
 }
 
 function shieldEnd(playerChar, enemyChar) {
-    debugger
     if (playerChar.shieldBonus > 0) {
         playerChar.shieldBonus -= 1
     } else if (playerChar.shieldBonus == 0) {
@@ -417,7 +415,6 @@ function drawItemInven(arr) {
 }
 
 function magic(playerChar, enemyChar) {
-    debugger
     if (playerChar.poison == true && enemyChar[level].poisoned < 1) {
         enemyChar[level].poisoned += 5
         document.getElementById('display').innerText = enemyChar[level].name + ' is poisoned!'
@@ -433,7 +430,7 @@ function magic(playerChar, enemyChar) {
 function poison(enemyChar) {
     if (enemyChar.poisoned > 0) {
         enemyChar.health -= enemyChar.damage.poison
-        document.getElementById('display').innerText = enemyChar.name + ' was hurt was poison!'
+        document.getElementById('display').innerText = enemyChar.name + ' was hurt by poison!'
         update(enemyChar, 'enemyhealth')
         enemyChar.poisoned -= 1
     }
