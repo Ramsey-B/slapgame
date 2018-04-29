@@ -10,8 +10,9 @@ var enemy = [{
         poison: 10
     },
     img: 'assets/pics/thief.png',
-    backImg: 'assets/pics/forrest-background.jpg',
+    backImg: 'url("assets/pics/forrest-background.jpg")',
     poisoned: 0,
+    healthBonus: 0,
     attack: {
         attackName1: 'Quick Attack',
         attackName2: 'Heavy Attack',
@@ -32,6 +33,7 @@ var enemy = [{
     },
     img: '',
     poisoned: 0,
+    healthBonus: 0,
     attack: {
         attackName1: 'Quick Attack',
         attackName2: 'Heavy Attack',
@@ -48,7 +50,11 @@ var player = [{
     img: 'assets/pics/greenknight.png',
     maxHealth: 100,
     health: 100,
-    hits: 0
+    hits: 0,
+    attacks: ['Quick', 'Heavy', 'Arrow'],
+    magic: 'poison',
+    item: [],
+    healthBonus: 0
 }]
 
 var level = 0
@@ -65,35 +71,41 @@ var items = {
     Sandwhich: new Item("Sandwhich", 2, 2)
 }
 
+function addItems(obj, playerChar) {
+    playerChar.item.push(obj.Potion)
+    playerChar.item.push(obj.Shield)
+    playerChar.item.push(obj.Sandwhich)
+}
+
 function attack(num, enemy) {
-    debugger
     var playerChoice = playerAttack(num, enemy)
     enemy[level].health -= playerChoice
     display(attackMess(num))
-    update(enemy[level].health, 'enemyhealth')
+    update(enemy[level], 'enemyhealth')
     var eAttack = enemyAttChoice()
     var enemyAttResult = enemyAttMess(enemy[level], eAttack)
     setTimeout(display, 3000, enemyAttResult)
     enemyDmg(eAttack, enemy[level], player[choice])
     enemy[level].hits++
-    setTimeout(update, 3000, player[choice].health, 'playerhealth')
+    setTimeout(update, 3000, player[choice], 'playerhealth')
 }
 
 function playerAttack(num, enemy) {
-    if (num == 1) {
+    if (num == 0) {
         return enemy[level].damage.quick
-    } else if (num == 2) {
+    } else if (num == 1) {
         return enemy[level].damage.arrow
-    } else if (num == 3) {
+    } else if (num == 2) {
         return enemy[level].damage.arrow
     }
 }
 
-function update(health, charId) {
-    if (health > 0) {
+function update(playerChar, charId) {
+    if (playerChar.health > 0) {
         document.getElementById(charId).innerHTML = `<h4>Health</h4>
         <div class="progress">
-  <div class="progress-bar" role="progressbar" style="width: ${health}%;" aria-valuenow="${health}" aria-valuemin="0" aria-valuemax="100">${health}</div>
+  <div class="progress-bar" role="progressbar" style="width: ${playerChar.health/2}%;">${playerChar.health + playerChar.healthBonus}</div>
+  <div class="progress-bar bg-success" style="width:${playerChar.healthBonus/2}%"></div>
 </div>`
     } else {
         document.getElementById(charId).innerHTML = `<h4>Health</h4>
@@ -117,6 +129,7 @@ function levelIncrease(enemy) {
         update(enemy[level].health, 'enemyhealth')
         charName(enemy[level].name, 'enemyname')
         charImg(enemy[level].img, 'enemyimg')
+        drawBackground(enemy[level])
     }
 }
 
@@ -154,11 +167,11 @@ function display(resultMess) {
 }
 
 function attackMess(number) {
-    if (number == 1) {
+    if (number == 0) {
         return 'You used a Quick Attack!'
-    } else if (number == 2) {
+    } else if (number == 1) {
         return 'You used a Heavy Attack!'
-    } else if (number == 3) {
+    } else if (number == 2) {
         return 'You fired an Arrow!'
     }
 }
@@ -175,41 +188,76 @@ function poisoned(enemyChar) {
         return enemyChar[level] + 'is poisoned!'
     }
 }
-function healthPotion(playerChar, obj) {
+
+function useItem(num, playerChar, enemyChar) {
     debugger
-    if (obj.Potion.itemQ > 0 && playerChar.health < playerChar.maxHealth) {
-        playerChar.health += obj.Potion.itemMod
-        update(playerChar.health, 'playerhealth')
-        obj.Potion.itemQ -= 1
+    if (num == 0) {
+        if (playerChar.item[0].itemQ > 0 && playerChar.health < playerChar.maxHealth) {
+            playerChar.health += playerChar.item[0].itemMod
+            update(playerChar.health, 'playerhealth')
+            playerChar.item[0].itemQ -= 1
+            document.getElementById('display').innerText = "You used a Health Potion!"
+        } else {
+            document.getElementById('display').innerText = "You're out of those!"
+        }
+    } else if (num == 1) {
+        if (playerChar.item[1].itemQ > 0) {
+            enemyChar[level].attack.range -= enemyChar[level].attack.range
+            var quickReduce = (enemyChar[level].attack.quick / 2)
+            var heavyReduce = (enemyChar[level].attack.heavy / 2)
+            enemyChar[level].attack.quick -= quickReduce
+            enemyChar[level].attack.heavy -= heavyReduce
+            playerChar.item[0].itemQ -= 1
+            document.getElementById('display').innerText = "Armored up!"
+        } else {
+            document.getElementById('display').innerText = "Better find cover!"
+        }
+    } else if (num == 2) {
+        if (playerChar.item[2].itemQ > 0) {
+            var modifier = playerChar.item[2].itemMod
+            enemyChar[level].damage.quick += enemyChar[level].damage.quick
+            enemyChar[level].damage.heavy += enemyChar[level].damage.heavy
+            var healthIn = playerChar.health * modifier
+            playerChar.healthBonus += healthIn - playerChar.maxHealth
+            update(playerChar, 'playerhealth')
+            playerChar.item[0].itemQ -= 1
+            document.getElementById('display').innerText = "You ate a Sandwhich!"
+        } else {
+            document.getElementById('display').innerText = "Sorry, no free lunch here!"
+        }
     }
 }
 
-function eatSandwhich(obj, playChar, enemyChar) {
-    debugger
-    if (obj.Sandwhich.itemQ > 0) {
-        var modifier = obj.Sandwhich.itemMod
-        enemyChar[level].damage.quick += enemyChar[level].damage.quick
-        enemyChar[level].damage.heavy += enemyChar[level].damage.heavy
-        update(playChar.health * modifier, 'playerhealth')
-        obj.Sandwhich.itemQ -= 1
-    }
+function drawBackground(enemyChar) {
+    document.getElementById('background-img').style.backgroundImage = enemyChar.backImg
 }
 
-function shield(def, playDef, enemyDef) {
-    debugger
-    if (def.Shield.itemQ > 0) {
-        enemyDef[level].attack.range -= enemyDef[level].attack.range
-        var quickReduce = (enemyDef[level].attack.quick / 2)
-        var heavyReduce = (enemyDef[level].attack.heavy / 2)
-        enemyDef[level].attack.quick -= quickReduce
-        enemyDef[level].attack.heavy -= heavyReduce
-        def.Shield.itemQ -= 1
+function drawAttBtn(arr) {
+    var template = `<h3>Attacks!</h3>`
+    for (let i = 0; i < arr.length; i++) {
+        const element = arr[i];
+        template += `
+        <button onclick="attack(${[i]}, enemy); levelIncrease(enemy)">${arr[i]}</button>`
     }
+    document.getElementById('attack-btn').innerHTML = template
 }
 
-update(player[choice].health, 'playerhealth')
-update(enemy[level].health, 'enemyhealth')
+function drawItemBtn(arr, playerChar, enemyChar) {
+    var template = `<h3>Items!</h3>`
+    for (let i = 0; i < arr.length; i++) {
+        const element = arr[i];
+        template += `<button onclick="useItem(${[i]}, player[choice], enemy)">${arr[i].itemName}</button>`
+    }
+    document.getElementById('item-btn').innerHTML = template
+}
+
+update(player[choice], 'playerhealth')
+update(enemy[level], 'enemyhealth')
 charName(enemy[level].name, 'enemyname')
 charName(player[choice].name, 'playername')
 charImg(enemy[level].img, 'enemyimg')
 charImg(player[choice].img, 'playerimg')
+drawBackground(enemy[level])
+drawAttBtn(player[choice].attacks)
+addItems(items, player[choice])
+drawItemBtn(player[choice].item, player, enemy)
