@@ -55,6 +55,7 @@ var enemy = [{
     backImg: 'url("assets/pics/forrest-background.jpg")',
     poisoned: -1,
     shocked: 0,
+    frozen: 0,
     healthBonus: 0,
     attack: {
         attackName1: 'Quick Attack',
@@ -78,6 +79,8 @@ var enemy = [{
     },
     img: '',
     poisoned: -1,
+    shocked: 0,
+    frozen: 0,
     healthBonus: 0,
     attack: {
         attackName1: 'Quick Attack',
@@ -121,6 +124,21 @@ var player = [{
     lightning: true,
     ice: false,
     magicAtt: ['lightning'],
+}, {
+    name: 'Blue Knight',
+    img: 'assets/pics/greenknight.png',
+    maxHealth: 100,
+    health: 100,
+    hits: 0,
+    attacks: ['Quick', 'Heavy', 'Arrow'],
+    item: [],
+    healthBonus: 0,
+    sandBonus: -1,
+    shieldBonus: -1,
+    poison: false,
+    lightning: false,
+    ice: true,
+    magicAtt: ['ice'],
 }]
 
 function attack(num, enemyChar) {
@@ -130,6 +148,7 @@ function attack(num, enemyChar) {
     display(attackMess(num))
     update(enemyChar, 'enemyhealth')
     lightning(enemyChar)
+    ice(enemyChar)
     var eAttack = enemyAttChoice()
     var enemyAttResult = enemyAttMess(enemyChar, eAttack)
     setTimeout(display, 3000, enemyAttResult)
@@ -374,7 +393,10 @@ function magic(playerChar, enemyChar) {
         document.getElementById('display').innerText = enemyChar[level].name + ' is poisoned!'
     } else if (playerChar.magicAtt[0] == 'lightning' && enemyChar[level].shocked < 1) {
         enemyChar[level].shocked += 1
-        document.getElementById('display').innerText = enemyChar[level].name + ' is shocked'
+        document.getElementById('display').innerText = enemyChar[level].name + ' is shocked!'
+    } else if (playerChar.magicAtt[0] == 'ice' && enemyChar[level].frozen < .5) {
+        enemyChar[level].frozen += 1
+        document.getElementById('display').innerText = enemyChar[level].name + ' is frozen!'
     }
 }
 
@@ -390,7 +412,17 @@ function poison(enemyChar) {
 function lightning(enemyChar) {
     if (enemyChar.shocked == 1) {
         enemyChar.attack.hitChance.push(0)
-        enemyChar[level].shocked -= 1
+        enemyChar.shocked -= 1
+    }
+}
+
+function ice(enemyChar) {
+    if (enemyChar.frozen == 1) {
+        enemyChar.attack.quick -= (enemyChar.attack.quick/2)
+        enemyChar.attack.heavy -= (enemyChar.attack.heavy/2)
+        enemyChar.frozen -= .5
+    } else if (enemyChar.frozen == .5) {
+        enemyChar.frozen -= .5
     }
 }
 
