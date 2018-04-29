@@ -1,4 +1,42 @@
-function startGame(num) {
+var character = [{
+    name: 'Green Knight',
+    num: 0,
+    img: "url(assets/pics/GreenStart.png)",
+    divId: 'green-knight',
+    btn: 'success'
+}, {
+    name: 'Red Knight',
+    num: 1,
+    img: "url(assets/pics/redStart.png)",
+    divId: 'red-knight',
+    btn: 'danger'
+}, {
+    name: 'Blue Knight',
+    num: 2,
+    img: "url(assets/pics/BlueStart.png)",
+    divId: 'blue-knight',
+    btn: 'primary'
+}]
+
+function start(num) {
+    if (num < 0) {
+        var template = ``
+        for (var i=0; i<3; i++) {
+            template += `<div class="col-4 start-img" id="${character[i].divId}" style="background-image: ${character[i].img}">
+            <button class="btn btn-outline-${character[i].btn} btn-start" onclick="start(${[i]})">Start</button>
+            </div>`
+        }
+        document.getElementById('start-page').innerHTML = template
+    } else if (num >= 0) {
+        startGame(num)
+        choice = num
+    }
+}
+
+
+start(-1)
+
+
     var enemy = [{
         name: 'Theif',
         health: 100,
@@ -44,7 +82,7 @@ function startGame(num) {
         },
     },]
 
-    var choice = num
+
     var player = [{
         name: 'Green Knight',
         img: 'assets/pics/greenknight.png',
@@ -56,6 +94,21 @@ function startGame(num) {
         item: [],
         healthBonus: 0
     }]
+
+    var choice = 0
+
+    function attack(num, enemyChar) {
+        var playerChoice = playerAttack(num, enemyChar)
+        enemyChar[level].health -= playerChoice
+        display(attackMess(num))
+        update(enemyChar[level], 'enemyhealth')
+        var eAttack = enemyAttChoice()
+        var enemyAttResult = enemyAttMess(enemyChar[level], eAttack)
+        setTimeout(display, 3000, enemyAttResult)
+        enemyDmg(eAttack, enemyChar[level], player[choice])
+        enemyChar[level].hits++
+        setTimeout(update, 3000, player[choice], 'playerhealth')
+    }
 
     var level = 0
 
@@ -77,18 +130,7 @@ function startGame(num) {
         playerChar.item.push(obj.Sandwhich)
     }
 
-    function attack(num, enemy) {
-        var playerChoice = playerAttack(num, enemy)
-        enemy[level].health -= playerChoice
-        display(attackMess(num))
-        update(enemy[level], 'enemyhealth')
-        var eAttack = enemyAttChoice()
-        var enemyAttResult = enemyAttMess(enemy[level], eAttack)
-        setTimeout(display, 3000, enemyAttResult)
-        enemyDmg(eAttack, enemy[level], player[choice])
-        enemy[level].hits++
-        setTimeout(update, 3000, player[choice], 'playerhealth')
-    }
+
 
     function playerAttack(num, enemy) {
         if (num == 0) {
@@ -120,7 +162,7 @@ function startGame(num) {
     }
 
     function charImg(img, imgId) {
-        document.getElementById(imgId).innerHTML = '<img src="' +img+ '">'
+        document.getElementById(imgId).innerHTML = '<img src="' + img + '">'
     }
 
     function levelIncrease(enemy) {
@@ -236,7 +278,7 @@ function startGame(num) {
         for (let i = 0; i < arr.length; i++) {
             const element = arr[i];
             template += `
-        <button onclick="attack(${[i]}, enemy); levelIncrease(enemy)">${arr[i]}</button>`
+        <button onclick="attack(${[i]}, enemy[level]); levelIncrease(enemy)">${arr[i]}</button>`
         }
         document.getElementById('attack-btn').innerHTML = template
     }
@@ -249,7 +291,7 @@ function startGame(num) {
         }
         document.getElementById('item-btn').innerHTML = template
     }
-
+    function startGame(pick) {
     update(player[choice], 'playerhealth')
     update(enemy[level], 'enemyhealth')
     charName(enemy[level].name, 'enemyname')
