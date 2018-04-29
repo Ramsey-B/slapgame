@@ -13,12 +13,13 @@ var character = [{
 }, {
     name: 'Blue Knight',
     num: 2,
-    img: "url(assets/pics/BlueStart.png)",
+    img: "url(assets/pics/BlueStart.jpg)",
     divId: 'blue-knight',
     btn: 'primary'
 }]
 
 function pageChange(pageNum) {
+    debugger
     if (pageNum = 1) {
         var page = document.getElementById("start-page");
         if (page.style.display === "none") {
@@ -47,7 +48,7 @@ function startPage() {
     document.getElementById('start-page').style.display = "block"
     var template = ``
     for (var i = 0; i < character.length; i++) {
-        template += `<div class="col-4 start-img" id="${character[i].divId}" style="background-image: ${character[i].img}">
+        template += `<div class="col-2 start-img " id="${character[i].divId}" style="background-image: ${character[i].img}">
             <button class="btn btn-outline-${character[i].btn} btn-start" onclick="startGame(${[i]}); pageChange(1);">Start</button>
             </div>`
     }
@@ -83,18 +84,19 @@ var enemy = [{
         range: 25,
         rangebase: 25,
         hitChance: [0, 0, 1, 1, 1, 2, 3, 3]
-    },
+    } 
 }, {
-    name: 'Barbarian',
+    name: 'Theif2',
     health: 100,
     hits: 0,
     damage: {
-        quick: 5,
-        heavy: 10,
-        arrow: 10,
-        poison: 20
+        quick: 10,
+        heavy: 15,
+        arrow: 25,
+        poison: 10
     },
-    img: '',
+    img: 'assets/pics/thief.png',
+    backImg: 'url("assets/pics/forrest-background.jpg")',
     poisoned: -1,
     shocked: 0,
     frozen: 0,
@@ -103,11 +105,12 @@ var enemy = [{
         attackName1: 'Quick Attack',
         attackName2: 'Heavy Attack',
         attackName3: 'Arrow',
-        quick: 15,
-        heavy: 25,
-        range: 5,
-        rangebase: 5,
-    },
+        quick: 5,
+        heavy: 10,
+        range: 25,
+        rangebase: 25,
+        hitChance: [0, 0, 1, 1, 1, 2, 3, 3]
+    }, 
 },]
 
 
@@ -128,7 +131,7 @@ var player = [{
     magicAtt: ['Poison'],
 }, {
     name: 'Red Knight',
-    img: 'assets/pics/greenknight.png',
+    img: 'assets/pics/redknight.png',
     maxHealth: 100,
     health: 100,
     hits: 0,
@@ -143,7 +146,7 @@ var player = [{
     magicAtt: ['lightning'],
 }, {
     name: 'Blue Knight',
-    img: 'assets/pics/greenknight.png',
+    img: 'assets/pics/blueknight.png',
     maxHealth: 100,
     health: 100,
     hits: 0,

@@ -3,6 +3,25 @@
     color: white;
     background-color: blue;
 }
-.char-img {
+.player-char {
     width: 200px;
+}
+
+.start-img {
+    width: 40vh;
+    height: 60vh;
+    display: inline-block;
+    background-repeat: no-repeat;
+}
+
+#blue-knight {
+    background-size: 30vh
+}
+.btn-start {
+    margin-top: 30vh;
+    margin-left: 7vh;
+    border-radius: 15px
+}
+#green-knight {
+    margin-left:25%;
 }
