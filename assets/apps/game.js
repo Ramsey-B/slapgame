@@ -18,22 +18,28 @@ var character = [{
     btn: 'primary'
 }]
 
-function start(num) {
-    if (num < 0) {
-        var template = ``
-        for (var i = 0; i < character.length; i++) {
-            template += `<div class="col-4 start-img" id="${character[i].divId}" style="background-image: ${character[i].img}">
-            <button class="btn btn-outline-${character[i].btn} btn-start" onclick="start(${[i]})">Start</button>
-            </div>`
-        }
-        document.getElementById('start-page').innerHTML = template
-    } else if (num >= 0) {
-        startGame(num)
-        choice = num
+function pageChange() {
+    var page = document.getElementById("start-page");
+    if (page.style.display === "none") {
+        page.style.display = "block";
+    } else {
+        page.style.display = "none";
     }
 }
 
+function startPage() {
+    var template = ``
+    for (var i = 0; i < character.length; i++) {
+        template += `<div class="col-4 start-img" id="${character[i].divId}" style="background-image: ${character[i].img}">
+            <button class="btn btn-outline-${character[i].btn} btn-start" onclick="startGame(${[i]}); pageChange();">Start</button>
+            </div>`
+    }
+    document.getElementById('start-page').innerHTML = template
+}
 
+var choice = 0
+
+startPage()
 
 var enemy = [{
     name: 'Theif',
@@ -47,7 +53,8 @@ var enemy = [{
     },
     img: 'assets/pics/thief.png',
     backImg: 'url("assets/pics/forrest-background.jpg")',
-    poisoned: 0,
+    poisoned: -1,
+    shocked: 0,
     healthBonus: 0,
     attack: {
         attackName1: 'Quick Attack',
@@ -57,6 +64,7 @@ var enemy = [{
         heavy: 10,
         range: 25,
         rangebase: 25,
+        hitChance: [0,1,2,3,4]
     },
 }, {
     name: 'Barbarian',
@@ -69,7 +77,7 @@ var enemy = [{
         poison: 20
     },
     img: '',
-    poisoned: 0,
+    poisoned: -1,
     healthBonus: 0,
     attack: {
         attackName1: 'Quick Attack',
@@ -90,20 +98,38 @@ var player = [{
     health: 100,
     hits: 0,
     attacks: ['Quick', 'Heavy', 'Arrow'],
-    magic: 'poison',
     item: [],
     healthBonus: 0,
     sandBonus: -1,
-    shieldBonus: -1
+    shieldBonus: -1,
+    poison: true,
+    lightnig: false,
+    ice: false,
+    magicAtt: ['Poison'],
+}, {
+    name: 'Red Knight',
+    img: 'assets/pics/greenknight.png',
+    maxHealth: 100,
+    health: 100,
+    hits: 0,
+    attacks: ['Quick', 'Heavy', 'Arrow'],
+    item: [],
+    healthBonus: 0,
+    sandBonus: -1,
+    shieldBonus: -1,
+    poison: false,
+    lightning: true,
+    ice: false,
+    magicAtt: ['lightning'],
 }]
 
-var choice = 0
-
 function attack(num, enemyChar) {
+    debugger
     var playerChoice = playerAttack(num, enemyChar)
     enemyChar.health -= playerChoice
     display(attackMess(num))
     update(enemyChar, 'enemyhealth')
+    lightning(enemyChar)
     var eAttack = enemyAttChoice()
     var enemyAttResult = enemyAttMess(enemyChar, eAttack)
     setTimeout(display, 3000, enemyAttResult)
@@ -113,6 +139,7 @@ function attack(num, enemyChar) {
     shieldEnd(player[choice], enemyChar)
     sandEnd(player[choice], enemyChar)
     drawHits(enemy)
+    setTimeout(poison, 2000, enemyChar)
 }
 
 var level = 0
@@ -125,7 +152,7 @@ var Item = function (itemName, itemMod, itemQ) {
 
 var items = {
     Potion: new Item("Health Potion", 25, 5),
-    Shield: new Item("Shield", 0.5, 10),
+    Shield: new Item("Shield", 0.5, 5),
     Sandwhich: new Item("Sandwhich", 2, 2)
 }
 
@@ -153,12 +180,12 @@ function update(playerChar, charId) {
         <div class="progress">
   <div class="progress-bar" role="progressbar" style="width: ${playerChar.health / 2}%;">${playerChar.health + playerChar.healthBonus}</div>
   <div class="progress-bar bg-success" style="width:${playerChar.healthBonus / 2}%"></div>
-</div>`
+    </div>`
     } else {
         document.getElementById(charId).innerHTML = `<h4>Health</h4>
         <div class="progress">
   <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-</div>`
+    </div>`
     }
 }
 
@@ -181,12 +208,17 @@ function levelIncrease(enemy) {
 }
 
 function enemyAttMess(enemyChar, randChoice) {
-    if (randChoice == 1 || randChoice == 2) {
-        return enemyChar.name + ' used a ' + enemyChar.attack.attackName1
-    } else if (randChoice == 3 || randChoice == 4) {
-        return enemyChar.name + ' used a ' + enemyChar.attack.attackName2
-    } else if (randChoice == 5 || randChoice == 6) {
-        return enemyChar.name + ' fired an ' + enemyChar.attack.attackName3
+    var randAtt = enemyChar.attack.hitChance[randChoice]
+    if (randAtt > 0) {
+        if (randAtt >= 1 || randChoice <= 3) {
+            return enemyChar.name + ' used a ' + enemyChar.attack.attackName1
+        } else if (randAtt == 4) {
+            return enemyChar.name + ' used a ' + enemyChar.attack.attackName2
+        } else if (randAtt == 5 || randAtt == 6) {
+            return enemyChar.name + ' fired an ' + enemyChar.attack.attackName3
+        } 
+    } else if (randChoice == (enemyChar.attack.hitChance.length - 1)) {
+        return enemyChar.name + ' is shocked and missed!'
     } else {
         return enemyChar.name + ' Missed!'
     }
@@ -198,12 +230,15 @@ function enemyAttChoice() {
 }
 
 function enemyDmg(randChoice, enemyChar, playerChar) {
-    if (randChoice == 1 || randChoice == 2) {
-        playerChar.health -= enemyChar.attack.quick
-    } else if (randChoice == 3 || randChoice == 4) {
-        playerChar.health -= enemyChar.attack.heavy
-    } else if (randChoice == 5 || randChoice == 6) {
-        playerChar.health -= enemyChar.attack.range
+    var randAtt = enemyChar.attack.hitChance[randChoice]
+    if (randAtt > 0) {
+        if (randAtt >= 1 || randChoice <= 3) {
+            playerChar.health -= enemyChar.attack.quick
+        } else if (randAtt == 4) {
+            playerChar.health -= enemyChar.attack.heavy
+        } else if (randAtt == 5 || randAtt == 6) {
+            playerChar.health -= enemyChar.attack.range
+        }
     } else {
         playerChar.health -= 0
     }
@@ -220,12 +255,6 @@ function attackMess(number) {
         return 'You used a Heavy Attack!'
     } else if (number == 2) {
         return 'You fired an Arrow!'
-    }
-}
-
-function greenMagic(target) {
-    if (target[level].poisoned == 0) {
-        target[level].poisoned += 1
     }
 }
 
@@ -292,8 +321,8 @@ function sandEnd(playerChar, enemyChar) {
     if (playerChar.sandBonus > 0) {
         playerChar.sandBonus -= 1
     } else if (playerChar.shieldBonus == 0) {
-        enemyChar[level].damage.quick -= (enemyChar[level].damage.quick/2)
-        enemyChar[level].damage.heavy -= (enemyChar[level].damage.heavy/2)
+        enemyChar[level].damage.quick -= (enemyChar[level].damage.quick / 2)
+        enemyChar[level].damage.heavy -= (enemyChar[level].damage.heavy / 2)
         playerChar.healthBonus -= playerChar.healthBonus
         playerChar.sandBonus -= 1
     }
@@ -324,22 +353,57 @@ function drawItemBtn(arr, playerChar, enemyChar) {
 
 function drawHits(enemyChar) {
     var total = 0
-    for (var i=0; i<enemyChar.length; i++) {
+    for (var i = 0; i < enemyChar.length; i++) {
         total += enemyChar[i].hits
     }
-    document.getElementById('Hits').innerHTML = '<h4>Hits: ' +total
+    document.getElementById('Hits').innerHTML = '<h4>Hits: ' + total
 }
 
 function drawItemInven(arr) {
-    debugger
     var template = ``
-    for (var i=0; i<arr.length; i++) {
+    for (var i = 0; i < arr.length; i++) {
         template += `<h5>${arr[i].itemName}: ${arr[i].itemQ}</h5>`
     }
     document.getElementById('itemInven').innerHTML = template
 }
 
+function magic(playerChar, enemyChar) {
+    debugger
+    if (playerChar.poison == true && enemyChar[level].poisoned < 1) {
+        enemyChar[level].poisoned += 5
+        document.getElementById('display').innerText = enemyChar[level].name + ' is poisoned!'
+    } else if (playerChar.magicAtt[0] == 'lightning' && enemyChar[level].shocked < 1) {
+        enemyChar[level].shocked += 1
+        document.getElementById('display').innerText = enemyChar[level].name + ' is shocked'
+    }
+}
+
+function poison(enemyChar) {
+    if (enemyChar.poisoned > 0) {
+        enemyChar.health -= enemyChar.damage.poison
+        document.getElementById('display').innerText = enemyChar.name + ' was hurt was poison!'
+        update(enemyChar, 'enemyhealth')
+        enemyChar.poisoned -= 1
+    }
+}
+
+function lightning(enemyChar) {
+    if (enemyChar.shocked == 1) {
+        enemyChar.attack.hitChance.push(0)
+        enemyChar[level].shocked -= 1
+    }
+}
+
+function drawMagicBtn(playerChar) {
+    var template = `<h3>Magic!</h3>`
+    for (var i = 0; i < playerChar.magicAtt.length; i++) {
+        template += `<button onclick="magic(player[choice], enemy)">${playerChar.magicAtt[i]}</button> `
+    }
+    document.getElementById('magic-btn').innerHTML = template
+}
+
 function startGame(pick) {
+    choice = pick
     update(player[choice], 'playerhealth')
     update(enemy[level], 'enemyhealth')
     charName(enemy[level].name, 'enemyname')
@@ -352,6 +416,5 @@ function startGame(pick) {
     drawItemBtn(player[choice].item, player, enemy)
     drawHits(enemy)
     drawItemInven(player[choice].item)
+    drawMagicBtn(player[choice])
 }
-
-start(-1)
