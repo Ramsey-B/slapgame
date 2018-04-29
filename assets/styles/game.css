@@ -3,10 +3,6 @@
     color: white;
     background-color: blue;
 }
-#playerimg {
-    width: 200px;
-}
-
-#enemyimg {
+.char-img {
     width: 200px;
 }
