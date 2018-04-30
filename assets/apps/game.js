@@ -273,7 +273,7 @@ function update(Char, charId) {
     </div>`
     }
 }
-
+//a
 function charName(name, nameId) {
     document.getElementById(nameId).innerText = name
 }
