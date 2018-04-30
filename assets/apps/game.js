@@ -212,7 +212,7 @@ function addPlayer () {
 function attack(num, enemyChar) {
     var playerChoice = playerAttack(num, enemyChar)
     enemyChar.health -= playerChoice
-    display(attackMess(num))
+    display(attackMess(playerChoice, enemyChar))
     update(enemyChar, 'enemyhealth')
     lightning(enemyChar)
     ice(enemyChar)
@@ -253,9 +253,19 @@ function playerAttack(num, enemyChar) {
     if (num == 0) {
         return enemyChar.damage.quick
     } else if (num == 1) {
-        return enemyChar.damage.heavy
+        var hitChance = Math.floor(Math.random() *3)
+        if (hitChance >= 1) {
+            return enemyChar.damage.heavy
+        } else {
+            return 0
+        }
     } else if (num == 2) {
-        return enemyChar.damage.arrow
+        var hitChance = Math.floor(Math.random() *4)
+        if (hitChance >= 1) {
+            return enemyChar.damage.arrow
+        } else {
+            return 0
+        }
     }
 }
 
@@ -273,7 +283,7 @@ function update(Char, charId) {
     </div>`
     }
 }
-//a
+
 function charName(name, nameId) {
     document.getElementById(nameId).innerText = name
 }
@@ -335,12 +345,14 @@ function display(resultMess) {
     document.getElementById('display').innerText = resultMess
 }
 
-function attackMess(number) {
+function attackMess(number, enemyChar) {
     if (number == 0) {
+        return 'You Missed!'
+    } else if (number == enemyChar.damage.quick) {
         return 'You used a Quick Attack!'
-    } else if (number == 1) {
+    } else if (number == enemyChar.damage.heavy) {
         return 'You used a Heavy Attack!'
-    } else if (number == 2) {
+    } else if (number == enemyChar.damage.arrow) {
         return 'You fired an Arrow!'
     }
 }
@@ -511,7 +523,6 @@ function drawMagicBtn(playerChar) {
 function startGame(pick) {
     addEnemy()
     addPlayer()
-    document.getElementById('start-page').style.display = "block"
     choice = pick
     update(player[choice], 'playerhealth')
     update(enemy[level], 'enemyhealth')
