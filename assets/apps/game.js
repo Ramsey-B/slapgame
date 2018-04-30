@@ -58,41 +58,39 @@ var choice = 0
 
 startPage()
 
-function Enemies(name, health, maxHealth, hits, damage, img, backImg, poisoned, shocked, frozen, attack,) {
-    this.name = name
-    this.health = health
-    this.maxHealth = maxHealth
-    this.hits = hits
-    this.damage = damage
-    this.img =img
-    this.backImg = backImg
-    this.poisoned =poisoned
-    this.shocked = shocked
-    this.frozen = frozen
-    this.attack = attack
-}
+// function Enemies(name, health, maxHealth, hits, damage, img, backImg, poisoned, shocked, frozen, attack,) {
+//     this.name = name
+//     this.health = health
+//     this.maxHealth = maxHealth
+//     this.hits = hits
+//     this.damage = damage
+//     this.img =img
+//     this.backImg = backImg
+//     this.poisoned =poisoned
+//     this.shocked = shocked
+//     this.frozen = frozen
+//     this.attack = attack
+// }
 
-function EDef (quick, heavy, arrow, poison) {
-    this.quick =quick
-    this.heavy = heavy
-    this.arrow = arrow
-    this.poison = poison
-}
+// function EDef (quick, heavy, arrow, poison) {
+//     this.quick =quick
+//     this.heavy = heavy
+//     this.arrow = arrow
+//     this.poison = poison
+// }
 
-function EAtt (attackName1, attackName2, attackName3, quick, heavy, range, rangebase, hitChance) {
-    this.attackName1 =attackName1
-    this.attackName2 = attackName2
-    this.attackName3 = attackName3
-    this.quick = quick
-    this.heavy = heavy 
-    this.range = range
-    this.rangebase = rangebase
-    this.hitChance = hitChance
-}
+// function EAtt (attackName1, attackName2, attackName3, quick, heavy, range, rangebase, hitChance) {
+//     this.attackName1 =attackName1
+//     this.attackName2 = attackName2
+//     this.attackName3 = attackName3
+//     this.quick = quick
+//     this.heavy = heavy 
+//     this.range = range
+//     this.rangebase = rangebase
+//     this.hitChance = hitChance
+// }
 
-
-
-var enemy = [{
+var barbarian = {
     name: 'Barbarian',
     health: 100,
     maxHealth: 100,
@@ -119,7 +117,9 @@ var enemy = [{
         rangebase: 5,
         hitChance: [0, 1, 1, 2, 3]
     },
-}, {
+}
+
+var thief =  {
     name: 'Thief',
     health: 100,
     maxHealth: 100,
@@ -146,7 +146,9 @@ var enemy = [{
         rangebase: 25,
         hitChance: [0, 0, 1, 1, 1, 2, 3, 3]
     }
-}, {
+}
+
+var bear = {
     name: 'Bear',
     health: 100,
     maxHealth: 100,
@@ -173,7 +175,9 @@ var enemy = [{
         rangebase: 10,
         hitChance: [1, 1, 1, 1, 2, 3]
     },
-}, {
+}
+
+var coneHead ={
     name: 'Cone Head',
     health: 125,
     maxHealth: 125,
@@ -200,7 +204,9 @@ var enemy = [{
         rangebase: 25,
         hitChance: [0, 0, 1, 1, 1, 1, 2, 2, 3]
     },
-}, {
+}
+
+var beefyThief = {
     name: 'Beefy Thief',
     health: 200,
     maxHealth: 200,
@@ -227,7 +233,9 @@ var enemy = [{
         rangebase: 15,
         hitChance: [0, 0, 0, 1, 1, 1, 2, 3]
     },
-}, {
+}
+
+var fishMan = {
     name: 'Fishman',
     health: 150,
     maxHealth: 150,
@@ -254,7 +262,9 @@ var enemy = [{
         rangebase: 0,
         hitChance: [0, 0, 0, 1, 1, 1, 2]
     },
-}, {
+}
+
+var alien ={
     name: 'Beefy Alien',
     health: 200,
     maxHealth: 200,
@@ -281,7 +291,9 @@ var enemy = [{
         rangebase: 15,
         hitChance: [0, 1, 1, 2, 3]
     },
-}, {
+}
+
+var boss = {
     name: 'Barbarian Boss',
     health: 200,
     maxHealth: 200,
@@ -308,8 +320,20 @@ var enemy = [{
         rangebase: 25,
         hitChance: [0, 0, 0, 2]
     },
-}]
+}
 
+var enemy = []
+
+function addEnemy() {
+    enemy.push(barbarian)
+    enemy.push(thief)
+    enemy.push(bear)
+    enemy.push(coneHead)
+    enemy.push(beefyThief)
+    enemy.push(fishMan)
+    enemy.push(alien)
+    enemy.push(boss)
+}
 
 var player = [{
     name: 'Green Knight',
@@ -660,6 +684,7 @@ function drawMagicBtn(playerChar) {
 }
 
 function startGame(pick) {
+    addEnemy()
     document.getElementById('start-page').style.display = "block"
     choice = pick
     update(player[choice], 'playerhealth')
