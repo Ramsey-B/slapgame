@@ -1,3 +1,5 @@
+
+
 var character = [{
     name: 'Green Knight',
     num: 0,
@@ -149,58 +151,6 @@ function Player(name, img, maxHealth, health, hits, attacks, item, healthBonus, 
 var Greenknight = new Player('Green Knight',['assets/pics/greenknight.png', '200vh'], 100, 100, 0,['Quick', 'Heavy', 'Arrow'], [], 0, -1, -1, true, false, false, ['poison'])
 var Redknight = new Player('Red Knight',['assets/pics/redknight.png', '200vh'], 100, 100, 0,['Quick', 'Heavy', 'Arrow'], [], 0, -1, -1, false, true, false, ['lightning'])
 var Blueknight = new Player('Blue Knight',['assets/pics/blueknight.png', '200vh'], 100, 100, 0,['Quick', 'Heavy', 'Arrow'], [], 0, -1, -1, false, false, true, ['ice'])
-
-// var greenknight = {
-//     name: 'Green Knight',
-//     img: ['assets/pics/greenknight.png', '200vh'],
-//     maxHealth: 100,
-//     health: 100,
-//     hits: 0,
-//     attacks: ['Quick', 'Heavy', 'Arrow'],
-//     item: [],
-//     healthBonus: 0,
-//     sandBonus: -1,
-//     shieldBonus: -1,
-//     poison: true,
-//     lightnig: false,
-//     ice: false,
-//     magicAtt: ['Poison'],
-// }
-
-// var redknight = {
-//     name: 'Red Knight',
-//     img: ['assets/pics/redknight.png', '200vh'],
-//     maxHealth: 100,
-//     health: 100,
-//     hits: 0,
-//     attacks: ['Quick', 'Heavy', 'Arrow'],
-//     item: [],
-//     healthBonus: 0,
-//     sandBonus: -1,
-//     shieldBonus: -1,
-//     poison: false,
-//     lightning: true,
-//     ice: false,
-//     magicAtt: ['lightning'],
-// }
-
-// var blueknight = {
-//     name: 'Blue Knight',
-//     img: ['assets/pics/blueknight.png', '200vh'],
-//     maxHealth: 100,
-//     health: 100,
-//     hits: 0,
-//     attacks: ['Quick', 'Heavy', 'Arrow'],
-//     item: [],
-//     healthBonus: 0,
-//     sandBonus: -1,
-//     shieldBonus: -1,
-//     poison: false,
-//     lightning: false,
-//     ice: true,
-//     magicAtt: ['ice'],
-// }
-
 var player = []
 
 function addPlayer () {
@@ -546,7 +496,7 @@ function drawEndPage(outcome) {
     document.getElementById('end-page').innerHTML = `<h2 class="mt-2">${endMess}</h2>
     <span class="mt-2">Hits: ${totalHits(enemy)}</span>
     <span class="mt-2">Enemies beat: ${level}</span>
-    <button onclick="startPage(); pageChange(3)" class="mt-2 mb-2 btn btn-outline-light">Try again!</button>`
+    <button onclick="startPage(); history.go(0)" class="mt-2 mb-2 btn btn-outline-light" value="Reload Page">Try again!</button>`
 }
 
 function playerWin(enemyArr, playerChar) {
