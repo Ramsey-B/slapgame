@@ -1,3 +1,4 @@
+//You have two instances of similar objects, your Character selection objects listed here, and your actual game character objects. consider combining these two
 var character = [{
     name: 'Green Knight',
     num: 0,
@@ -18,6 +19,7 @@ var character = [{
     btn: 'primary'
 }]
 
+//Nice work with 'faking' page navigation, this will become easier later; but another way to do this is to have a template for each of your pages, then injecting just the template portion into the same div with an id of "active-page" or something of that nature.
 function pageChange(pageNum) {
     if (pageNum == 1) {
         var page = document.getElementById("start-page");
@@ -71,7 +73,7 @@ function Enemies(name, health, maxHealth, hits, damage, img, backImg, poisoned, 
     this.frozen = frozen
     this.attack = attack
 }
-
+//EDef and EAtt objects could potentially be added to the enemies object under a property of the same name, where the value will be the whole object
 function EDef (quick, heavy, arrow, poison) {
     this.quick =quick
     this.heavy = heavy
@@ -90,6 +92,8 @@ function EAtt (attackName1, attackName2, attackName3, quick, heavy, range, range
     this.hitChance = hitChance
 }
 
+
+//variables should start lower case
 var BarbDef = new EDef(15,20,10,15)
 var BarbAtt = new EAtt('Quick Attack', 'Heavy Attack', 'Arrow', 12, 20, 5, 5, [0, 1, 1, 2, 3])
 var Barbarian = new Enemies('Barbarian', 100, 100, 0, BarbDef, ['assets/pics/barbarian.png', '300vh'], 'url("assets/pics/castle.jpg")', -1, 0, 0, BarbAtt) 
@@ -116,6 +120,8 @@ var BossAtt = new EAtt('Quick Attack', 'Heavy Attack', 'Laser', 20, 30, 5, 5, [0
 var Boss = new Enemies('Boss', 400, 400, 0, BossDef, ['assets/pics/boss.png', '200vh'], 'url("assets/pics/bossbattle.jpg")', -1, 0, 0, BossAtt) 
 
 
+//you could also declare this like so: 
+// var enemy = [Barbarian, Thief, Bear, Conehead, BeefyTheif, Fishman, Alien, Boss]
 var enemy = []
 
 function addEnemy() {
@@ -146,9 +152,16 @@ function Player(name, img, maxHealth, health, hits, attacks, item, healthBonus, 
     this.magicAtt= magicAtt
 }
 
+//variables should start lower case
+
+//values that are always the same should be inherent in the object, example, maxHealth => shieldBonus
+
+//why is magicAtt an array with only one item in it? Would it be better to just have this as a string?
 var Greenknight = new Player('Green Knight',['assets/pics/greenknight.png', '200vh'], 100, 100, 0,['Quick', 'Heavy', 'Arrow'], [], 0, -1, -1, true, false, false, ['poison'])
 var Redknight = new Player('Red Knight',['assets/pics/redknight.png', '200vh'], 100, 100, 0,['Quick', 'Heavy', 'Arrow'], [], 0, -1, -1, false, true, false, ['lightning'])
 var Blueknight = new Player('Blue Knight',['assets/pics/blueknight.png', '200vh'], 100, 100, 0,['Quick', 'Heavy', 'Arrow'], [], 0, -1, -1, false, false, true, ['ice'])
+
+//same as above: var player = [greenKnight, redKnight, blueKnight]
 var player = []
 
 function addPlayer () {
@@ -156,6 +169,7 @@ function addPlayer () {
     player.push(Redknight)
     player.push(Blueknight)
 }
+
 
 function attack(num, enemyChar) {
     var playerChoice = playerAttack(num, enemyChar)
@@ -197,10 +211,12 @@ function addItems(obj, playerChar) {
     playerChar.item.push(obj.Sandwhich)
 }
 
+//use a dictionary and a string instead of num and if conditionals
 function playerAttack(num, enemyChar) {
     if (num == 0) {
         return enemyChar.damage.quick
     } else if (num == 1) {
+        //repeating this in line 227 as well, consider changing your logic gates so this only has to be done once
         var hitChance = Math.floor(Math.random() *3)
         if (hitChance >= 1) {
             return enemyChar.damage.heavy
@@ -254,6 +270,7 @@ function enemyAttMess(enemyChar, randChoice) {
     var options = enemyChar.attack.hitChance
     var randAtt = options[randChoice]
     if (randAtt > 0) {
+        //try this with a dictionary instead
         if (randAtt == 1) {
             return enemyChar.name + ' used a ' + enemyChar.attack.attackName1
         } else if (randAtt == 2) {
