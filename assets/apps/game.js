@@ -1,5 +1,3 @@
-
-
 var character = [{
     name: 'Green Knight',
     num: 0,
