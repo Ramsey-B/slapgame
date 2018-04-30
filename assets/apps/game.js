@@ -58,9 +58,37 @@ var choice = 0
 
 startPage()
 
-var enemy = [{
-    name: 'Theif',
+var enemy = [ {
+    name: 'Barbarian',
     health: 100,
+    maxHealth: 100,
+    hits: 0,
+    damage: {
+        quick: 15,
+        heavy: 20,
+        arrow: 10,
+        poison: 15
+    },
+    img: ['assets/pics/barbarian.png', '300vh'],
+    backImg: 'url("assets/pics/castle.jpg")',
+    poisoned: -1,
+    shocked: 0,
+    frozen: 0,
+    healthBonus: 0,
+    attack: {
+        attackName1: 'Quick Attack',
+        attackName2: 'Heavy Attack',
+        attackName3: 'Arrow',
+        quick: 12,
+        heavy: 20,
+        range: 5,
+        rangebase: 5,
+        hitChance: [0, 1, 1, 2, 3]
+    }, 
+}, {
+    name: 'Thief',
+    health: 100,
+    maxHealth: 100,
     hits: 0,
     damage: {
         quick: 10,
@@ -68,7 +96,7 @@ var enemy = [{
         arrow: 25,
         poison: 10
     },
-    img: 'assets/pics/thief.png',
+    img: ['assets/pics/thief.png', '200vh'],
     backImg: 'url("assets/pics/forrest-background.jpg")',
     poisoned: -1,
     shocked: 0,
@@ -85,16 +113,71 @@ var enemy = [{
         hitChance: [0, 0, 1, 1, 1, 2, 3, 3]
     } 
 }, {
-    name: 'Theif2',
+    name: 'Bear',
     health: 100,
+    maxHealth: 100,
+    hits: 0,
+    damage: {
+        quick: 15,
+        heavy: 15,
+        arrow: 10,
+        poison: 5
+    },
+    img: ['assets/pics/bear.png', '200vh'],
+    backImg: 'url("assets/pics/grass.jpg")',
+    poisoned: -1,
+    shocked: 0,
+    frozen: 0,
+    healthBonus: 0,
+    attack: {
+        attackName1: 'Quick Attack',
+        attackName2: 'Heavy Attack',
+        attackName3: 'Ice Ball',
+        quick: 10,
+        heavy: 15,
+        range: 10,
+        rangebase: 10,
+        hitChance: [1, 1, 1, 1, 2, 3]
+    }, 
+}, {
+    name: 'Cone Head',
+    health: 125,
+    maxHealth: 125,
     hits: 0,
     damage: {
         quick: 10,
-        heavy: 15,
-        arrow: 25,
-        poison: 10
+        heavy: 10,
+        arrow: 10,
+        poison: 1
     },
-    img: 'assets/pics/thief.png',
+    img: ['assets/pics/conehead.png', '200vh'],
+    backImg: 'url("assets/pics/wedding.jpg")',
+    poisoned: -1,
+    shocked: 0,
+    frozen: 0,
+    healthBonus: 0,
+    attack: {
+        attackName1: 'Quick Attack',
+        attackName2: 'Heavy Attack',
+        attackName3: 'Arrow Rain',
+        quick: 10,
+        heavy: 15,
+        range: 25,
+        rangebase: 25,
+        hitChance: [0, 0, 1, 1, 1, 1, 2, 2, 3]
+    }, 
+}, {
+    name: 'Beefy Thief',
+    health: 200,
+    maxHealth: 200,
+    hits: 0,
+    damage: {
+        quick: 15,
+        heavy: 20,
+        arrow: 15,
+        poison: 15
+    },
+    img: ['assets/pics/beefy-thief.png', '200vh'],
     backImg: 'url("assets/pics/forrest-background.jpg")',
     poisoned: -1,
     shocked: 0,
@@ -104,18 +187,99 @@ var enemy = [{
         attackName1: 'Quick Attack',
         attackName2: 'Heavy Attack',
         attackName3: 'Arrow',
-        quick: 5,
-        heavy: 10,
-        range: 25,
-        rangebase: 25,
-        hitChance: [0, 0, 1, 1, 1, 2, 3, 3]
+        quick: 10,
+        heavy: 20,
+        range: 15,
+        rangebase: 15,
+        hitChance: [0, 0, 0, 1, 1, 1, 2, 3]
     }, 
-},]
+}, {
+    name: 'Fishman',
+    health: 150,
+    maxHealth: 150,
+    hits: 0,
+    damage: {
+        quick: 15,
+        heavy: 20,
+        arrow: 5,
+        poison: 10
+    },
+    img: ['assets/pics/fishman.png', '200vh'],
+    backImg: 'url("assets/pics/temple.jpg")',
+    poisoned: -1,
+    shocked: 0,
+    frozen: 0,
+    healthBonus: 0,
+    attack: {
+        attackName1: 'Quick Attack',
+        attackName2: 'Heavy Attack',
+        attackName3: 'Arrow',
+        quick: 15,
+        heavy: 5,
+        range: 0,
+        rangebase: 0,
+        hitChance: [0, 0, 0, 1, 1, 1,2]
+    }, 
+}, {
+    name: 'Beefy Alien',
+    health: 200,
+    maxHealth: 200,
+    hits: 0,
+    damage: {
+        quick: 15,
+        heavy: 20,
+        arrow: 10,
+        poison: 15
+    },
+    img: ['assets/pics/alien.png', '200vh'],
+    backImg: 'url("ship.jpg")',
+    poisoned: -1,
+    shocked: 0,
+    frozen: 0,
+    healthBonus: 0,
+    attack: {
+        attackName1: 'Quick Attack',
+        attackName2: 'Heavy Attack',
+        attackName3: 'Laser',
+        quick: 10,
+        heavy: 15,
+        range: 15,
+        rangebase: 15,
+        hitChance: [0, 1, 1, 2, 3]
+    }, 
+}, {
+    name: 'Barbarian Boss',
+    health: 200,
+    maxHealth: 200,
+    hits: 0,
+    damage: {
+        quick: 3,
+        heavy: 8,
+        arrow: 3,
+        poison: 8
+    },
+    img: ['assets/pics/boss.png', '200vh'],
+    backImg: 'url("assets/pics/bossbattle.jpg")',
+    poisoned: -1,
+    shocked: 0,
+    frozen: 0,
+    healthBonus: 0,
+    attack: {
+        attackName1: 'Spikes',
+        attackName2: 'Slam',
+        attackName3: 'Arrow',
+        quick: 20,
+        heavy: 30,
+        range: 5,
+        rangebase: 25,
+        hitChance: [0, 0, 0, 2]
+    }, 
+}]
 
 
 var player = [{
     name: 'Green Knight',
-    img: 'assets/pics/greenknight.png',
+    img: ['assets/pics/greenknight.png', '200vh'],
     maxHealth: 100,
     health: 100,
     hits: 0,
@@ -130,7 +294,7 @@ var player = [{
     magicAtt: ['Poison'],
 }, {
     name: 'Red Knight',
-    img: 'assets/pics/redknight.png',
+    img: ['assets/pics/redknight.png', '200vh'],
     maxHealth: 100,
     health: 100,
     hits: 0,
@@ -145,7 +309,7 @@ var player = [{
     magicAtt: ['lightning'],
 }, {
     name: 'Blue Knight',
-    img: 'assets/pics/blueknight.png',
+    img: ['assets/pics/blueknight.png', '200vh'],
     maxHealth: 100,
     health: 100,
     hits: 0,
@@ -189,7 +353,7 @@ var Item = function (itemName, itemMod, itemQ) {
 }
 
 var items = {
-    Potion: new Item("Health Potion", 25, 5),
+    Potion: new Item("Health Potion", 25, 10),
     Shield: new Item("Shield", 0.5, 5),
     Sandwhich: new Item("Sandwhich", 2, 2)
 }
@@ -232,7 +396,7 @@ function charName(name, nameId) {
 }
 
 function charImg(img, imgId) {
-    document.getElementById(imgId).innerHTML = '<img src="' + img + '" class="char-img">'
+    document.getElementById(imgId).innerHTML = '<img src="' + img[0] + '" class="char-img" height="' +img[1]+ '">'
 }
 
 function levelIncrease(enemy) {

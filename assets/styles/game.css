@@ -17,6 +17,7 @@
 #blue-knight {
     background-size: 30vh
 }
+
 .btn-start {
     margin-top: 30vh;
     margin-left: 7vh;
@@ -24,4 +25,24 @@
 }
 #green-knight {
     margin-left:25%;
+}
+
+#playerimg {
+    width: 10vh;
+    margin-top: 3vh;
+    margin-bottom: 3vh;
+}
+
+#background-img {
+    background-repeat: no-repeat;
+    background-size: 100%
+}
+
+#display {
+    background-color: lightblue;
+    color: white;
+    text-align: center;
+    margin-top: 1vh;
+    border-style: solid;
+    border-radius: 15px;
 }
