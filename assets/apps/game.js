@@ -93,311 +93,120 @@ function EAtt (attackName1, attackName2, attackName3, quick, heavy, range, range
 var BarbDef = new EDef(15,20,10,15)
 var BarbAtt = new EAtt('Quick Attack', 'Heavy Attack', 'Arrow', 12, 20, 5, 5, [0, 1, 1, 2, 3])
 var Barbarian = new Enemies('Barbarian', 100, 100, 0, BarbDef, ['assets/pics/barbarian.png', '300vh'], 'url("assets/pics/castle.jpg")', -1, 0, 0, BarbAtt) 
+var ThiefDef = new EDef(10,15,25,10)
+var ThiefAtt = new EAtt('Quick Attack', 'Heavy Attack', 'Arrow', 5, 10, 20, 20, [0, 0, 1, 1, 1, 2, 3, 3])
+var Thief = new Enemies('Barbarian', 100, 100, 0, ThiefDef, ['assets/pics/thief.png', '200vh'], 'url("assets/pics/forrest-background.jpg")', -1, 0, 0, ThiefAtt) 
+var BearDef = new EDef(15,15,10,5)
+var BearAtt = new EAtt('Quick Attack', 'Heavy Attack', 'Ice Ball', 10, 15, 10, 10, [1, 1, 1, 1, 2, 3])
+var Bear = new Enemies('Barbarian', 100, 100, 0, BearDef, ['assets/pics/bear.jpg.png', '200vh'], 'url("assets/pics/grass.jpg")', -1, 0, 0, BearAtt) 
+var ConeDef = new EDef(10,10,10,1)
+var ConeAtt = new EAtt('Quick Attack', 'Heavy Attack', 'Arrow Rain', 10, 15, 25, 25, [0, 0, 1, 1, 1, 1, 2, 2, 3])
+var Conehead = new Enemies('Barbarian', 150, 150, 0, ConeDef, ['assets/pics/conehead.png', '200vh'], 'url("assets/pics/wedding.jpg")', -1, 0, 0, ConeAtt) 
+var BTDef = new EDef(15,20,15,15)
+var BTAtt = new EAtt('Quick Attack', 'Heavy Attack', 'Arrow', 10, 20, 15, 15, [0, 0, 0, 1, 1, 1, 2, 3])
+var BeefyThief = new Enemies('Barbarian', 200, 200, 0, BTDef, ['assets/pics/beefy-thief.png', '200vh'], 'url("assets/pics/forrest-background.jpg")', -1, 0, 0, BTAtt) 
+var FishDef = new EDef(15,20,5,10)
+var FishAtt = new EAtt('Quick Attack', 'Heavy Attack', 'Arrow', 15, 5, 0, 0, [0, 0, 0, 1, 1, 1, 2])
+var Fishman = new Enemies('Barbarian', 150, 150, 0, FishDef, ['assets/pics/fishman.png', '200vh'], 'url("assets/pics/temple.jpg")', -1, 0, 0, FishAtt) 
+var AlienDef = new EDef(15,20,10,15)
+var AlienAtt = new EAtt('Quick Attack', 'Heavy Attack', 'Laser', 10, 15, 20, 20, [0, 1, 1, 2, 3])
+var Alien = new Enemies('Barbarian', 200, 200, 0, AlienDef, ['assets/pics/alien.png', '200vh'], 'url("ship.jpg")', -1, 0, 0, AlienAtt) 
+var BossDef = new EDef(3,8,3,8)
+var BossAtt = new EAtt('Quick Attack', 'Heavy Attack', 'Laser', 20, 30, 5, 5, [0, 0, 0, 2, 1])
+var Boss = new Enemies('Barbarian', 400, 400, 0, BossDef, ['assets/pics/boss.png', '200vh'], 'url("assets/pics/bossbattle.jpg")', -1, 0, 0, BossAtt) 
 
-
-
-// var barbarian = {
-//     name: 'Barbarian',
-//     health: 100,
-//     maxHealth: 100,
-//     hits: 0,
-//     damage: {
-//         quick: 15,
-//         heavy: 20,
-//         arrow: 10,
-//         poison: 15
-//     },
-//     img: ['assets/pics/barbarian.png', '300vh'],
-//     backImg: 'url("assets/pics/castle.jpg")',
-//     poisoned: -1,
-//     shocked: 0,
-//     frozen: 0,
-//     healthBonus: 0,
-//     attack: {
-//         attackName1: 'Quick Attack',
-//         attackName2: 'Heavy Attack',
-//         attackName3: 'Arrow',
-//         quick: 12,
-//         heavy: 20,
-//         range: 5,
-//         rangebase: 5,
-//         hitChance: [0, 1, 1, 2, 3]
-//     },
-// }
-
-var thief =  {
-    name: 'Thief',
-    health: 100,
-    maxHealth: 100,
-    hits: 0,
-    damage: {
-        quick: 10,
-        heavy: 15,
-        arrow: 25,
-        poison: 10
-    },
-    img: ['assets/pics/thief.png', '200vh'],
-    backImg: 'url("assets/pics/forrest-background.jpg")',
-    poisoned: -1,
-    shocked: 0,
-    frozen: 0,
-    healthBonus: 0,
-    attack: {
-        attackName1: 'Quick Attack',
-        attackName2: 'Heavy Attack',
-        attackName3: 'Arrow',
-        quick: 5,
-        heavy: 10,
-        range: 25,
-        rangebase: 25,
-        hitChance: [0, 0, 1, 1, 1, 2, 3, 3]
-    }
-}
-
-var bear = {
-    name: 'Bear',
-    health: 100,
-    maxHealth: 100,
-    hits: 0,
-    damage: {
-        quick: 15,
-        heavy: 15,
-        arrow: 10,
-        poison: 5
-    },
-    img: ['assets/pics/bear.jpg.png', '200vh'],
-    backImg: 'url("assets/pics/grass.jpg")',
-    poisoned: -1,
-    shocked: 0,
-    frozen: 0,
-    healthBonus: 0,
-    attack: {
-        attackName1: 'Quick Attack',
-        attackName2: 'Heavy Attack',
-        attackName3: 'Ice Ball',
-        quick: 10,
-        heavy: 15,
-        range: 10,
-        rangebase: 10,
-        hitChance: [1, 1, 1, 1, 2, 3]
-    },
-}
-
-var coneHead ={
-    name: 'Cone Head',
-    health: 125,
-    maxHealth: 125,
-    hits: 0,
-    damage: {
-        quick: 10,
-        heavy: 10,
-        arrow: 10,
-        poison: 1
-    },
-    img: ['assets/pics/conehead.png', '200vh'],
-    backImg: 'url("assets/pics/wedding.jpg")',
-    poisoned: -1,
-    shocked: 0,
-    frozen: 0,
-    healthBonus: 0,
-    attack: {
-        attackName1: 'Quick Attack',
-        attackName2: 'Heavy Attack',
-        attackName3: 'Arrow Rain',
-        quick: 10,
-        heavy: 15,
-        range: 25,
-        rangebase: 25,
-        hitChance: [0, 0, 1, 1, 1, 1, 2, 2, 3]
-    },
-}
-
-var beefyThief = {
-    name: 'Beefy Thief',
-    health: 200,
-    maxHealth: 200,
-    hits: 0,
-    damage: {
-        quick: 15,
-        heavy: 20,
-        arrow: 15,
-        poison: 15
-    },
-    img: ['assets/pics/beefy-thief.png', '200vh'],
-    backImg: 'url("assets/pics/forrest-background.jpg")',
-    poisoned: -1,
-    shocked: 0,
-    frozen: 0,
-    healthBonus: 0,
-    attack: {
-        attackName1: 'Quick Attack',
-        attackName2: 'Heavy Attack',
-        attackName3: 'Arrow',
-        quick: 10,
-        heavy: 20,
-        range: 15,
-        rangebase: 15,
-        hitChance: [0, 0, 0, 1, 1, 1, 2, 3]
-    },
-}
-
-var fishMan = {
-    name: 'Fishman',
-    health: 150,
-    maxHealth: 150,
-    hits: 0,
-    damage: {
-        quick: 15,
-        heavy: 20,
-        arrow: 5,
-        poison: 10
-    },
-    img: ['assets/pics/fishman.png', '200vh'],
-    backImg: 'url("assets/pics/temple.jpg")',
-    poisoned: -1,
-    shocked: 0,
-    frozen: 0,
-    healthBonus: 0,
-    attack: {
-        attackName1: 'Quick Attack',
-        attackName2: 'Heavy Attack',
-        attackName3: 'Arrow',
-        quick: 15,
-        heavy: 5,
-        range: 0,
-        rangebase: 0,
-        hitChance: [0, 0, 0, 1, 1, 1, 2]
-    },
-}
-
-var alien ={
-    name: 'Beefy Alien',
-    health: 200,
-    maxHealth: 200,
-    hits: 0,
-    damage: {
-        quick: 15,
-        heavy: 20,
-        arrow: 10,
-        poison: 15
-    },
-    img: ['assets/pics/alien.png', '200vh'],
-    backImg: 'url("ship.jpg")',
-    poisoned: -1,
-    shocked: 0,
-    frozen: 0,
-    healthBonus: 0,
-    attack: {
-        attackName1: 'Quick Attack',
-        attackName2: 'Heavy Attack',
-        attackName3: 'Laser',
-        quick: 10,
-        heavy: 15,
-        range: 15,
-        rangebase: 15,
-        hitChance: [0, 1, 1, 2, 3]
-    },
-}
-
-var boss = {
-    name: 'Barbarian Boss',
-    health: 400,
-    maxHealth: 200,
-    hits: 0,
-    damage: {
-        quick: 3,
-        heavy: 8,
-        arrow: 3,
-        poison: 8
-    },
-    img: ['assets/pics/boss.png', '200vh'],
-    backImg: 'url("assets/pics/bossbattle.jpg")',
-    poisoned: -1,
-    shocked: 0,
-    frozen: 0,
-    healthBonus: 0,
-    attack: {
-        attackName1: 'Spikes',
-        attackName2: 'Slam',
-        attackName3: 'Arrow',
-        quick: 20,
-        heavy: 30,
-        range: 5,
-        rangebase: 25,
-        hitChance: [0, 0, 0, 2]
-    },
-}
 
 var enemy = []
 
 function addEnemy() {
     enemy.push(Barbarian)
-    enemy.push(thief)
-    enemy.push(bear)
-    enemy.push(coneHead)
-    enemy.push(beefyThief)
-    enemy.push(fishMan)
-    enemy.push(alien)
-    enemy.push(boss)
+    enemy.push(Thief)
+    enemy.push(Bear)
+    enemy.push(Conehead)
+    enemy.push(BeefyThief)
+    enemy.push(Fishman)
+    enemy.push(Alien)
+    enemy.push(Boss)
 }
 
-var greenknight = {
-    name: 'Green Knight',
-    img: ['assets/pics/greenknight.png', '200vh'],
-    maxHealth: 100,
-    health: 100,
-    hits: 0,
-    attacks: ['Quick', 'Heavy', 'Arrow'],
-    item: [],
-    healthBonus: 0,
-    sandBonus: -1,
-    shieldBonus: -1,
-    poison: true,
-    lightnig: false,
-    ice: false,
-    magicAtt: ['Poison'],
+function Player(name, img, maxHealth, health, hits, attacks, item, healthBonus, sandBonus, shieldBonus, poison, lightning, ice, magicAtt){
+    this.name = name
+    this.img = img
+    this.maxHealth = maxHealth
+    this.health = health
+    this.hits = hits
+    this.attacks = attacks
+    this.item =item
+    this.healthBonus = healthBonus
+    this.sandBonus = sandBonus
+    this.shieldBonus = shieldBonus
+    this.poison = poison
+    this.lightning = lightning
+    this.ice = ice
+    this.magicAtt= magicAtt
 }
 
-var redknight = {
-    name: 'Red Knight',
-    img: ['assets/pics/redknight.png', '200vh'],
-    maxHealth: 100,
-    health: 100,
-    hits: 0,
-    attacks: ['Quick', 'Heavy', 'Arrow'],
-    item: [],
-    healthBonus: 0,
-    sandBonus: -1,
-    shieldBonus: -1,
-    poison: false,
-    lightning: true,
-    ice: false,
-    magicAtt: ['lightning'],
-}
+var Greenknight = new Player('Green Knight',['assets/pics/greenknight.png', '200vh'], 100, 100, 0,['Quick', 'Heavy', 'Arrow'], [], 0, -1, -1, true, false, false, ['poison'])
+var Redknight = new Player('Red Knight',['assets/pics/redknight.png', '200vh'], 100, 100, 0,['Quick', 'Heavy', 'Arrow'], [], 0, -1, -1, false, true, false, ['lightning'])
+var Blueknight = new Player('Blue Knight',['assets/pics/blueknight.png', '200vh'], 100, 100, 0,['Quick', 'Heavy', 'Arrow'], [], 0, -1, -1, false, false, true, ['ice'])
 
-var blueknight = {
-    name: 'Blue Knight',
-    img: ['assets/pics/blueknight.png', '200vh'],
-    maxHealth: 100,
-    health: 100,
-    hits: 0,
-    attacks: ['Quick', 'Heavy', 'Arrow'],
-    item: [],
-    healthBonus: 0,
-    sandBonus: -1,
-    shieldBonus: -1,
-    poison: false,
-    lightning: false,
-    ice: true,
-    magicAtt: ['ice'],
-}
+// var greenknight = {
+//     name: 'Green Knight',
+//     img: ['assets/pics/greenknight.png', '200vh'],
+//     maxHealth: 100,
+//     health: 100,
+//     hits: 0,
+//     attacks: ['Quick', 'Heavy', 'Arrow'],
+//     item: [],
+//     healthBonus: 0,
+//     sandBonus: -1,
+//     shieldBonus: -1,
+//     poison: true,
+//     lightnig: false,
+//     ice: false,
+//     magicAtt: ['Poison'],
+// }
+
+// var redknight = {
+//     name: 'Red Knight',
+//     img: ['assets/pics/redknight.png', '200vh'],
+//     maxHealth: 100,
+//     health: 100,
+//     hits: 0,
+//     attacks: ['Quick', 'Heavy', 'Arrow'],
+//     item: [],
+//     healthBonus: 0,
+//     sandBonus: -1,
+//     shieldBonus: -1,
+//     poison: false,
+//     lightning: true,
+//     ice: false,
+//     magicAtt: ['lightning'],
+// }
+
+// var blueknight = {
+//     name: 'Blue Knight',
+//     img: ['assets/pics/blueknight.png', '200vh'],
+//     maxHealth: 100,
+//     health: 100,
+//     hits: 0,
+//     attacks: ['Quick', 'Heavy', 'Arrow'],
+//     item: [],
+//     healthBonus: 0,
+//     sandBonus: -1,
+//     shieldBonus: -1,
+//     poison: false,
+//     lightning: false,
+//     ice: true,
+//     magicAtt: ['ice'],
+// }
 
 var player = []
 
 function addPlayer () {
-    player.push(greenknight)
-    player.push(redknight)
-    player.push(blueknight)
+    player.push(Greenknight)
+    player.push(Redknight)
+    player.push(Blueknight)
 }
 
 function attack(num, enemyChar) {
