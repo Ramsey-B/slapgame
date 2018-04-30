@@ -58,66 +58,72 @@ var choice = 0
 
 startPage()
 
-// function Enemies(name, health, maxHealth, hits, damage, img, backImg, poisoned, shocked, frozen, attack,) {
-//     this.name = name
-//     this.health = health
-//     this.maxHealth = maxHealth
-//     this.hits = hits
-//     this.damage = damage
-//     this.img =img
-//     this.backImg = backImg
-//     this.poisoned =poisoned
-//     this.shocked = shocked
-//     this.frozen = frozen
-//     this.attack = attack
-// }
-
-// function EDef (quick, heavy, arrow, poison) {
-//     this.quick =quick
-//     this.heavy = heavy
-//     this.arrow = arrow
-//     this.poison = poison
-// }
-
-// function EAtt (attackName1, attackName2, attackName3, quick, heavy, range, rangebase, hitChance) {
-//     this.attackName1 =attackName1
-//     this.attackName2 = attackName2
-//     this.attackName3 = attackName3
-//     this.quick = quick
-//     this.heavy = heavy 
-//     this.range = range
-//     this.rangebase = rangebase
-//     this.hitChance = hitChance
-// }
-
-var barbarian = {
-    name: 'Barbarian',
-    health: 100,
-    maxHealth: 100,
-    hits: 0,
-    damage: {
-        quick: 15,
-        heavy: 20,
-        arrow: 10,
-        poison: 15
-    },
-    img: ['assets/pics/barbarian.png', '300vh'],
-    backImg: 'url("assets/pics/castle.jpg")',
-    poisoned: -1,
-    shocked: 0,
-    frozen: 0,
-    healthBonus: 0,
-    attack: {
-        attackName1: 'Quick Attack',
-        attackName2: 'Heavy Attack',
-        attackName3: 'Arrow',
-        quick: 12,
-        heavy: 20,
-        range: 5,
-        rangebase: 5,
-        hitChance: [0, 1, 1, 2, 3]
-    },
+function Enemies(name, health, maxHealth, hits, damage, img, backImg, poisoned, shocked, frozen, attack,) {
+    this.name = name
+    this.health = health
+    this.maxHealth = maxHealth
+    this.hits = hits
+    this.damage = damage
+    this.img =img
+    this.backImg = backImg
+    this.poisoned =poisoned
+    this.shocked = shocked
+    this.frozen = frozen
+    this.attack = attack
 }
+
+function EDef (quick, heavy, arrow, poison) {
+    this.quick =quick
+    this.heavy = heavy
+    this.arrow = arrow
+    this.poison = poison
+}
+
+function EAtt (attackName1, attackName2, attackName3, quick, heavy, range, rangebase, hitChance) {
+    this.attackName1 =attackName1
+    this.attackName2 = attackName2
+    this.attackName3 = attackName3
+    this.quick = quick
+    this.heavy = heavy 
+    this.range = range
+    this.rangebase = rangebase
+    this.hitChance = hitChance
+}
+
+var BarbDef = new EDef(15,20,10,15)
+var BarbAtt = new EAtt('Quick Attack', 'Heavy Attack', 'Arrow', 12, 20, 5, 5, [0, 1, 1, 2, 3])
+var Barbarian = new Enemies('Barbarian', 100, 100, 0, BarbDef, ['assets/pics/barbarian.png', '300vh'], 'url("assets/pics/castle.jpg")', -1, 0, 0, BarbAtt) 
+
+
+
+// var barbarian = {
+//     name: 'Barbarian',
+//     health: 100,
+//     maxHealth: 100,
+//     hits: 0,
+//     damage: {
+//         quick: 15,
+//         heavy: 20,
+//         arrow: 10,
+//         poison: 15
+//     },
+//     img: ['assets/pics/barbarian.png', '300vh'],
+//     backImg: 'url("assets/pics/castle.jpg")',
+//     poisoned: -1,
+//     shocked: 0,
+//     frozen: 0,
+//     healthBonus: 0,
+//     attack: {
+//         attackName1: 'Quick Attack',
+//         attackName2: 'Heavy Attack',
+//         attackName3: 'Arrow',
+//         quick: 12,
+//         heavy: 20,
+//         range: 5,
+//         rangebase: 5,
+//         hitChance: [0, 1, 1, 2, 3]
+//     },
+// }
 
 var thief =  {
     name: 'Thief',
@@ -325,7 +331,7 @@ var boss = {
 var enemy = []
 
 function addEnemy() {
-    enemy.push(barbarian)
+    enemy.push(Barbarian)
     enemy.push(thief)
     enemy.push(bear)
     enemy.push(coneHead)
