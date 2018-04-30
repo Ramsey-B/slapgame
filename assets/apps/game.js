@@ -448,6 +448,7 @@ function poison(enemyChar) {
 function lightning(enemyChar) {
     if (enemyChar.shocked == 1) {
         enemyChar.attack.hitChance.push(0)
+        enemyChar.attack.hitChance.push(0)
         enemyChar.shocked -= 1
     }
 }
