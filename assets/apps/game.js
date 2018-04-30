@@ -48,7 +48,7 @@ function startPage() {
     var template = ``
     for (var i = 0; i < character.length; i++) {
         template += `<div class="col-2 start-img " id="${character[i].divId}" style="background-image: ${character[i].img}">
-            <button class="btn btn-outline-${character[i].btn} btn-start" onclick="startGame(${[i]}); pageChange(1);">Start</button>
+            <button class="btn btn-outline-${character[i].btn} btn-start" onclick="startGame(${[i]}); pageChange(1); pageChange(2);">Start</button>
             </div>`
     }
     document.getElementById('start-page').innerHTML = template
@@ -57,6 +57,40 @@ function startPage() {
 var choice = 0
 
 startPage()
+
+function Enemies(name, health, maxHealth, hits, damage, img, backImg, poisoned, shocked, frozen, attack,) {
+    this.name = name
+    this.health = health
+    this.maxHealth = maxHealth
+    this.hits = hits
+    this.damage = damage
+    this.img =img
+    this.backImg = backImg
+    this.poisoned =poisoned
+    this.shocked = shocked
+    this.frozen = frozen
+    this.attack = attack
+}
+
+function EDef (quick, heavy, arrow, poison) {
+    this.quick =quick
+    this.heavy = heavy
+    this.arrow = arrow
+    this.poison = poison
+}
+
+function EAtt (attackName1, attackName2, attackName3, quick, heavy, range, rangebase, hitChance) {
+    this.attackName1 =attackName1
+    this.attackName2 = attackName2
+    this.attackName3 = attackName3
+    this.quick = quick
+    this.heavy = heavy 
+    this.range = range
+    this.rangebase = rangebase
+    this.hitChance = hitChance
+}
+
+
 
 var enemy = [{
     name: 'Barbarian',
@@ -281,7 +315,7 @@ var player = [{
     name: 'Green Knight',
     img: ['assets/pics/greenknight.png', '200vh'],
     maxHealth: 100,
-    health: 10,
+    health: 100,
     hits: 0,
     attacks: ['Quick', 'Heavy', 'Arrow'],
     item: [],
@@ -654,7 +688,7 @@ function drawEndPage(outcome) {
 }
 
 function playerWin(enemyArr, playerChar) {
-    debugger
+
     if (enemyArr.length == level) {
         pageChange(2)
         drawEndPage('You Win!')
