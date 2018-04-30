@@ -159,7 +159,7 @@ var bear = {
         arrow: 10,
         poison: 5
     },
-    img: ['assets/pics/bear.png', '200vh'],
+    img: ['assets/pics/bear.jpg.png', '200vh'],
     backImg: 'url("assets/pics/grass.jpg")',
     poisoned: -1,
     shocked: 0,
@@ -335,7 +335,7 @@ function addEnemy() {
     enemy.push(boss)
 }
 
-var player = [{
+var greenknight = {
     name: 'Green Knight',
     img: ['assets/pics/greenknight.png', '200vh'],
     maxHealth: 100,
@@ -350,7 +350,9 @@ var player = [{
     lightnig: false,
     ice: false,
     magicAtt: ['Poison'],
-}, {
+}
+
+var redknight = {
     name: 'Red Knight',
     img: ['assets/pics/redknight.png', '200vh'],
     maxHealth: 100,
@@ -365,7 +367,9 @@ var player = [{
     lightning: true,
     ice: false,
     magicAtt: ['lightning'],
-}, {
+}
+
+var blueknight = {
     name: 'Blue Knight',
     img: ['assets/pics/blueknight.png', '200vh'],
     maxHealth: 100,
@@ -380,7 +384,15 @@ var player = [{
     lightning: false,
     ice: true,
     magicAtt: ['ice'],
-}]
+}
+
+var player = []
+
+function addPlayer () {
+    player.push(greenknight)
+    player.push(redknight)
+    player.push(blueknight)
+}
 
 function attack(num, enemyChar) {
     var playerChoice = playerAttack(num, enemyChar)
@@ -685,6 +697,7 @@ function drawMagicBtn(playerChar) {
 
 function startGame(pick) {
     addEnemy()
+    addPlayer()
     document.getElementById('start-page').style.display = "block"
     choice = pick
     update(player[choice], 'playerhealth')
