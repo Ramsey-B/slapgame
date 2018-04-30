@@ -46,3 +46,8 @@
     border-style: solid;
     border-radius: 15px;
 }
+
+#end-page {
+    border-radius: 15px;
+    color: white;
+}

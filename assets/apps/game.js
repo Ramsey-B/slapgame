@@ -19,22 +19,22 @@ var character = [{
 }]
 
 function pageChange(pageNum) {
-    if (pageNum = 1) {
+    if (pageNum == 1) {
         var page = document.getElementById("start-page");
         if (page.style.display === "none") {
             page.style.display = "block";
         } else {
             page.style.display = "none";
         }
-    } else if (pageNum = 2) {
+    } else if (pageNum == 2) {
         var page = document.getElementById("main-game");
         if (page.style.display === "none") {
             page.style.display = "block";
-        } else {
+        } else if (page.style.display = "block") {
             page.style.display = "none";
         }
-    } else if (pageNum = 3) {
-        var page = document.getElementById("end-page");
+    } else if (pageNum == 3) {
+        var page = document.getElementById("over-page");
         if (page.style.display === "none") {
             page.style.display = "block";
         } else {
@@ -58,7 +58,7 @@ var choice = 0
 
 startPage()
 
-var enemy = [ {
+var enemy = [{
     name: 'Barbarian',
     health: 100,
     maxHealth: 100,
@@ -84,7 +84,7 @@ var enemy = [ {
         range: 5,
         rangebase: 5,
         hitChance: [0, 1, 1, 2, 3]
-    }, 
+    },
 }, {
     name: 'Thief',
     health: 100,
@@ -111,7 +111,7 @@ var enemy = [ {
         range: 25,
         rangebase: 25,
         hitChance: [0, 0, 1, 1, 1, 2, 3, 3]
-    } 
+    }
 }, {
     name: 'Bear',
     health: 100,
@@ -138,7 +138,7 @@ var enemy = [ {
         range: 10,
         rangebase: 10,
         hitChance: [1, 1, 1, 1, 2, 3]
-    }, 
+    },
 }, {
     name: 'Cone Head',
     health: 125,
@@ -165,7 +165,7 @@ var enemy = [ {
         range: 25,
         rangebase: 25,
         hitChance: [0, 0, 1, 1, 1, 1, 2, 2, 3]
-    }, 
+    },
 }, {
     name: 'Beefy Thief',
     health: 200,
@@ -192,7 +192,7 @@ var enemy = [ {
         range: 15,
         rangebase: 15,
         hitChance: [0, 0, 0, 1, 1, 1, 2, 3]
-    }, 
+    },
 }, {
     name: 'Fishman',
     health: 150,
@@ -218,8 +218,8 @@ var enemy = [ {
         heavy: 5,
         range: 0,
         rangebase: 0,
-        hitChance: [0, 0, 0, 1, 1, 1,2]
-    }, 
+        hitChance: [0, 0, 0, 1, 1, 1, 2]
+    },
 }, {
     name: 'Beefy Alien',
     health: 200,
@@ -246,7 +246,7 @@ var enemy = [ {
         range: 15,
         rangebase: 15,
         hitChance: [0, 1, 1, 2, 3]
-    }, 
+    },
 }, {
     name: 'Barbarian Boss',
     health: 200,
@@ -273,7 +273,7 @@ var enemy = [ {
         range: 5,
         rangebase: 25,
         hitChance: [0, 0, 0, 2]
-    }, 
+    },
 }]
 
 
@@ -281,7 +281,7 @@ var player = [{
     name: 'Green Knight',
     img: ['assets/pics/greenknight.png', '200vh'],
     maxHealth: 100,
-    health: 100,
+    health: 10,
     hits: 0,
     attacks: ['Quick', 'Heavy', 'Arrow'],
     item: [],
@@ -377,7 +377,7 @@ function playerAttack(num, enemyChar) {
 }
 
 function update(Char, charId) {
-    var charHealth= Char.health
+    var charHealth = Char.health
     if (charHealth > 0) {
         document.getElementById(charId).innerHTML = `<h4>${Char.name}'s Health:</h4>
         <div class="progress">
@@ -396,16 +396,16 @@ function charName(name, nameId) {
 }
 
 function charImg(img, imgId) {
-    document.getElementById(imgId).innerHTML = '<img src="' + img[0] + '" class="char-img" height="' +img[1]+ '">'
+    document.getElementById(imgId).innerHTML = '<img src="' + img[0] + '" class="char-img" height="' + img[1] + '">'
 }
 
 function levelIncrease(enemy) {
     if (enemy[level].health <= 0) {
         level++
-        update(enemy[level].health, 'enemyhealth')
+        update(enemy[level], 'enemyhealth')
         charName(enemy[level].name, 'enemyname')
         charImg(enemy[level].img, 'enemyimg')
-        drawBackground(enemy[level]) 
+        drawBackground(enemy[level])
     }
 }
 
@@ -544,7 +544,7 @@ function drawAttBtn(arr) {
     for (let i = 0; i < arr.length; i++) {
         const element = arr[i];
         template += `
-        <button onclick="attack(${[i]}, enemy[level]); levelIncrease(enemy)">${arr[i]}</button>`
+        <button class="btn btn-outline-primary" onclick="attack(${[i]}, enemy[level]); levelIncrease(enemy)">${arr[i]}</button>`
     }
     document.getElementById('attack-btn').innerHTML = template
 }
@@ -553,7 +553,7 @@ function drawItemBtn(arr, playerChar, enemyChar) {
     var template = `<h3>Items!</h3>`
     for (let i = 0; i < arr.length; i++) {
         const element = arr[i];
-        template += `<button onclick="useItem(${[i]}, player[choice], enemy)">${arr[i].itemName}</button>`
+        template += `<button class="btn btn-outline-danger" onclick="useItem(${[i]}, player[choice], enemy)">${arr[i].itemName}</button>`
     }
     document.getElementById('item-btn').innerHTML = template
 }
@@ -620,7 +620,7 @@ function ice(enemyChar) {
 function drawMagicBtn(playerChar) {
     var template = `<h3>Magic!</h3>`
     for (var i = 0; i < playerChar.magicAtt.length; i++) {
-        template += `<button onclick="magic(player[choice], enemy)">${playerChar.magicAtt[i]}</button> `
+        template += `<button class="btn btn-outline-success" onclick="magic(player[choice], enemy)">${playerChar.magicAtt[i]}</button> `
     }
     document.getElementById('magic-btn').innerHTML = template
 }
@@ -646,17 +646,19 @@ function startGame(pick) {
 function drawEndPage(outcome) {
     document.getElementById('end-page').style.display = "block"
     var endMess = outcome
-    document.getElementById('end-page').innerHTML = `<h2>${endMess}</h2>
-    <span>Hits: ${totalHits()}</span>
-    <span>Enemies beat: ${level}</span>
-    <button onclick="startPage(); pageChange(3)">Try again!</button>`
+    document.getElementById('end-page').style.backgroundImage = 'url("assets/pics/endgame.jpg")'
+    document.getElementById('end-page').innerHTML = `<h2 class="mt-2">${endMess}</h2>
+    <span class="mt-2">Hits: ${totalHits(enemy)}</span>
+    <span class="mt-2">Enemies beat: ${level}</span>
+    <button onclick="startPage(); pageChange(3)" class="mt-2 mb-2 btn btn-outline-light">Try again!</button>`
 }
 
 function playerWin(enemyArr, playerChar) {
+    debugger
     if (enemyArr.length == level) {
-        pageChange(2) 
+        pageChange(2)
         drawEndPage('You Win!')
-    } else if (playerChar.health == 0) {
+    } else if (playerChar.health <= 0) {
         pageChange(2)
         drawEndPage('You Lose!')
     }
