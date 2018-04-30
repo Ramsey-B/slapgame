@@ -295,7 +295,7 @@ var alien ={
 
 var boss = {
     name: 'Barbarian Boss',
-    health: 200,
+    health: 400,
     maxHealth: 200,
     hits: 0,
     damage: {
