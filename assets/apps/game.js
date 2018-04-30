@@ -249,8 +249,6 @@ function addItems(obj, playerChar) {
     playerChar.item.push(obj.Sandwhich)
 }
 
-
-
 function playerAttack(num, enemyChar) {
     if (num == 0) {
         return enemyChar.damage.quick
