@@ -170,7 +170,7 @@ function attack(num, enemyChar) {
     var enemyAttResult = enemyAttMess(enemyChar, eAttack)
     setTimeout(display, 3000, enemyAttResult)
     enemyDmg(eAttack, enemyChar, player[choice])
-    enemyChar.hits++
+    addHits(enemyChar, playerChoice)
     setTimeout(update, 3000, player[choice], 'playerhealth')
     shieldEnd(player[choice], enemyChar)
     sandEnd(player[choice], enemyChar)
@@ -469,6 +469,12 @@ function drawMagicBtn(playerChar) {
         template += `<button class="btn btn-outline-success" onclick="magic(player[choice], enemy)">${playerChar.magicAtt[i]}</button> `
     }
     document.getElementById('magic-btn').innerHTML = template
+}
+
+function addHits(enemyChar, playAtt) {
+    if (playAtt > 0) {
+        enemyChar.hits++
+    }
 }
 
 function startGame(pick) {
